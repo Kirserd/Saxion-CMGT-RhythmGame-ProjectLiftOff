@@ -1,4 +1,5 @@
 ﻿using GXPEngine;
+using System;
 public class Unit : AnimationSprite
 {
     public Stat HP { get; } // Health points
@@ -9,7 +10,8 @@ public class Unit : AnimationSprite
         HP = hp;
         MS = ms;
     }
-    private void Update() => Attack("ExampleCircleAttack");
+    private void Update() => (LevelManager.CurrentLevel == null ? (Action)null : SafeUpdate)?.Invoke();
+    protected virtual void SafeUpdate() => Attack("ExampleCircleAttack");
 
     protected void Attack(string key, float atX = -1, float atY = -1) => (Game.main as Setup).LoadAttack(key, this, atX, atY);
     public override object Clone() => MemberwiseClone();

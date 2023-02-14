@@ -234,6 +234,14 @@ namespace GXPEngine
 					AddChild(children[i]);
 			}
 		}
+		public void LateAddChildren(GameObject[] children)
+		{
+			for (int i = 0; i < children.Length; i++)
+			{
+				if (children[i] != null)
+					LateAddChild(children[i]);
+			}
+		}
 
 		//------------------------------------------------------------------------------------------------------------------------
 		//														LateAddChild()
