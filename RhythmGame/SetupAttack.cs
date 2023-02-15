@@ -15,6 +15,9 @@ public partial class Setup : Game
             case "ExampleCircleAttack":
                 ExampleCircleAttack();
                 break;
+            case "WallAttack":
+                WallAttack();
+                break;
             default:
                 break;
         }
@@ -35,6 +38,22 @@ public partial class Setup : Game
                 angle += 45;
             }
         }
+        void WallAttack()
+        {
+            int bulletWall = 720;
+            for (int i = 0; i < 50; i++)
+            {
+                Bullet bullet = ObjectPool<Bullet>.GetInstance(typeof(Bullet)).GetObject(owner);
+                if (bullet is null)
+                    return;
+
+                bullet.SetXY(500, bulletWall);
+                bullet.rotation = 1.5708f;
+                bulletWall -= 30;
+
+            }
+        }
+
         #endregion
     }
 }
