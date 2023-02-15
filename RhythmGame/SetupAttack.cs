@@ -18,6 +18,9 @@ public partial class Setup : Game
             case "WallAttack":
                 WallAttack();
                 break;
+            case "CrossAttack":
+                CrossAttack();
+                break;
             default:
                 break;
         }
@@ -33,9 +36,9 @@ public partial class Setup : Game
                 if (bullet is null)
                     return;
 
-                bullet.SetXY(x++, atY);
+                bullet.SetXY(atX, atY);
                 bullet.rotation = angle;
-                angle += 45;
+                angle += 0.785398f;
             }
         }
         void WallAttack()
@@ -47,13 +50,26 @@ public partial class Setup : Game
                 if (bullet is null)
                     return;
 
-                bullet.SetXY(500, bulletWall);
+                bullet.SetXY(0, bulletWall);
                 bullet.rotation = 1.5708f;
-                bulletWall -= 30;
+                bulletWall -= 60;
 
             }
         }
+        void CrossAttack()
+        {
+            float angle = 0.785398f;
+            for (int i = 0; i < 4; i++)
+            {
+                Bullet bullet = ObjectPool<Bullet>.GetInstance(typeof(Bullet)).GetObject(owner);
+                if (bullet is null)
+                    return;
 
-        #endregion
+                bullet.SetXY(200, 200);
+                bullet.rotation = angle;
+                angle += 90*3.14159265358979f/180;
+            }
+            #endregion
+        }
     }
 }
