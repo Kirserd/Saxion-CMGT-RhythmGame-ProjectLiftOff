@@ -1,3 +1,4 @@
+using System.Windows.Forms;
 using GXPEngine;
 
 public partial class Setup : Game
@@ -20,7 +21,7 @@ public partial class Setup : Game
         void ExampleLevel()
         {
             level = new Level("ExampleLevel", new Vector2(0, 0));
-            level.LateAddChildren(new GameObject[] 
+            level.LateAddChildren(new GameObject[]
             {
                 new Unit
                 (
@@ -28,8 +29,20 @@ public partial class Setup : Game
                     hp: new Stat(10),
                     ms: new Stat(2),
                     filename:"Checker"
+
+                ),
+                
+                new Player
+                (
+                    position: new Vector2(width/2, height/2),
+                    hp: new Stat(10),
+                    ms: new Stat(2),
+                    filename:"Player",
+                    cols: 1,
+                    rows: 1
                 )
-            });
+                
+            }) ;
             ObjectPool<Bullet>.GetInstance(typeof(Bullet)).InitPool(64);
         }
         #endregion
