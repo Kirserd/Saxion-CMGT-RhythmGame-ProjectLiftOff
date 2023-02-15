@@ -38,7 +38,8 @@ public static class Camera
         Vector2 interpolatedPosition = Vector2.Lerp
         (
             _cameraPosition,
-            _destination, 0.04f
+            _destination, 
+            0.04f
         );
         
         _level.SetXY

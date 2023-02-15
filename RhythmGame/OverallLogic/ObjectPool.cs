@@ -20,19 +20,14 @@ public class ObjectPool<T> where T : class, new()
     }
     private List<T> _pool = new List<T>();
 
-    public T GetObject(Unit owner)
+    public T GetObject(object owner)
     {
         if (_pool.Count > 0)
         {
             T obj = _pool[_pool.Count - 1];
             _pool.RemoveAt(_pool.Count - 1);
-            Console.WriteLine("Taking obj");
-            if (obj is Bullet bullet)
-            {
-                bullet.Owner = owner;
-                bullet.visible = true;
-                LevelManager.CurrentLevel.AddChild(bullet);
-            }
+            if (obj is Bullet bullet) 
+                bullet.Activate(owner as Unit);
 
             return obj;
         }
@@ -43,10 +38,7 @@ public class ObjectPool<T> where T : class, new()
     public void ReturnObject(T obj)
     {
         if (obj is Bullet bullet)
-        {
-            bullet.Owner = null;
-            bullet.visible = false;
-        }
+            bullet.Deactivate();
         _pool.Add(obj);
     }
 
@@ -55,6 +47,7 @@ public class ObjectPool<T> where T : class, new()
         for (int i = 0; i < amount; i++)
             _pool.Add(new T());
     }
+    public void ClearPool() => _pool.Clear();
 }
 
 

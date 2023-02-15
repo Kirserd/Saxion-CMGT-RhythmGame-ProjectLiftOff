@@ -68,7 +68,9 @@
     <Compile Include="OverallLogic\Unit.cs" />
     <Compile Include="OverallLogic\Bullet.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Setup.cs" />
+    <Compile Include="SetupAttack.cs" />
+    <Compile Include="SetupLevel.cs" />
+    <Compile Include="SetupMain.cs" />
     <Compile Include="GXPEngine\Core\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />
     <Compile Include="GXPEngine\GameObject.cs" />

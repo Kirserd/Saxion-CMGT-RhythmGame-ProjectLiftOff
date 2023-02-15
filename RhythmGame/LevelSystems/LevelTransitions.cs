@@ -20,7 +20,7 @@ public static class LevelTransitions
         {
             if (_fadingScreen is null)
             {
-                _fadingScreen = new Sprite("FadingScreen");
+                Game.main.AddChild(_fadingScreen = new Sprite("FadingScreen"));
                 _fadingScreen.SetScaleXY(Game.main.width, Game.main.height);
             }
             return _fadingScreen;
@@ -29,7 +29,7 @@ public static class LevelTransitions
 
     public static void FadeIn() => Fade(1);
     public static void FadeOut() => Fade(-1);
-    private static void Fade(sbyte direction, float speed = 0.2f)
+    private static void Fade(sbyte direction, float speed = 0.002f)
     {
         if (_isFading)
             return;
@@ -51,6 +51,7 @@ public static class LevelTransitions
             if (FadingScreen.alpha < 1) { 
                 FadingScreen.alpha += Time.deltaTime * _speed;
             } else if(OnFadeInFinished != null) {
+                _isFading = false;
                 OnFadeInFinished.Invoke();
             }
         } 
@@ -58,9 +59,9 @@ public static class LevelTransitions
             if (FadingScreen.alpha > 0) {
                 FadingScreen.alpha -= Time.deltaTime * _speed;
             } else {
-                FadingScreen.LateDestroy();
+                FadingScreen.Destroy();
                 _fadingScreen = null;
-
+                _isFading = false;
                 if (OnFadeOutFinished != null)
                     OnFadeOutFinished.Invoke();            
             }
