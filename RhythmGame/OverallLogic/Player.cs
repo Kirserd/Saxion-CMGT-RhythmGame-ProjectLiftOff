@@ -1,17 +1,17 @@
-﻿using GXPEngine;
+﻿using System;
+using GXPEngine;
 
 public class Player : Unit
 {
-    public Player(Vector2 position, Stat hp, Stat ms, string filename, int cols, int rows) : base(position, hp, ms, filename, cols, rows)
+    public Player(Vector2 position, Stat hp, Stat ms, string filename, int cols, int rows) : base(position, hp, ms, "Player", 1, 1)
     {
-        SetOrigin(width / 2, height / 2);
     }
 
     protected override void SafeUpdate()
     {
         if (Input.GetKey(Key.W))
         {
-            SetXY(x, y--);
+            Move(0, -2);
             if (Input.GetKey(Key.SPACE)) 
             {
               for(int i = 0; i <= 7; i ++)

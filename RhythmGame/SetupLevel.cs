@@ -37,7 +37,7 @@ public partial class Setup : Game
                     position: new Vector2(width/2, height/2),
                     hp: new Stat(10),
                     ms: new Stat(2),
-                    filename:"Player",
+                    filename: "Player",
                     cols: 1,
                     rows: 1
                 )
