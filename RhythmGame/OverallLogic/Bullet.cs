@@ -12,8 +12,8 @@ public class Bullet : AnimationSprite
     );
     protected virtual void Move()
     {
-        x += 10 * Mathf.Sin(rotation);
-        y += 10 * Mathf.Cos(rotation);
+        x += 7 * Mathf.Sin(rotation);
+        y += 7 * Mathf.Cos(rotation);
     }
     protected virtual bool DealDamage(Unit unit)
     {

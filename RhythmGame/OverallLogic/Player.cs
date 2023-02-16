@@ -2,7 +2,7 @@
 
 public class Player : Unit
 {
-    public const float DASH_POWER = 100;
+    public const float DASH_POWER = 200;
     public const float DASH_QUICKNESS = 0.4f;
 
     private Vector2 _direction;
