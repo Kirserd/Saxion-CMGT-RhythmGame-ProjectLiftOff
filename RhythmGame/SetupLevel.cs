@@ -1,8 +1,10 @@
+using System;
 using System.Windows.Forms;
 using GXPEngine;
 
 public partial class Setup : Game
-{  
+{
+    SoundChannel MusicLevel1;
     public void LoadLevel(string key, bool twoPlayers = false)
     {
         #region Switch by key
@@ -20,9 +22,10 @@ public partial class Setup : Game
         #region Level Setups
         void ExampleLevel()
         {
+            MusicLevel1 = new Sound("SongLevel1.mp3", false, true).Play();
             level = new Level("ExampleLevel");
             level.AddChildren(new GameObject[]
-            {
+            { 
                 new Enemy
                 (
                     sequencePath: "ExampleSequence",
