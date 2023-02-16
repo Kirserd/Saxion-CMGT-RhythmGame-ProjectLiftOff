@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>GXPEngine</RootNamespace>
     <AssemblyName>GXPEngine</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -54,7 +54,7 @@
     <Compile Include="GXPExtended\Camera.cs" />
     <Compile Include="LevelSystems\LevelTransitions.cs" />
     <Compile Include="LevelSystems\Level.cs" />
-    <Compile Include="LevelSystems\LevelManager.cs" />
+    <Compile Include="Managers\LevelManager.cs" />
     <Compile Include="GXPExtended\GUI\Message.cs" />
     <Compile Include="GXPExtended\GUI\ValueDisplayer.cs" />
     <Compile Include="GXPExtended\GUI\Button.cs" />
@@ -62,6 +62,9 @@
     <Compile Include="GXPExtended\Core\Mathf.cs" />
     <Compile Include="GXPExtended\Core\MathfInternal.cs" />
     <Compile Include="GXPExtended\Core\Vector2.cs" />
+    <Compile Include="Managers\InputManager.cs" />
+    <Compile Include="Managers\EventSequence.cs" />
+    <Compile Include="OverallLogic\Enemy.cs" />
     <Compile Include="OverallLogic\ObjectPool.cs" />
     <Compile Include="OverallLogic\Player.cs" />
     <Compile Include="OverallLogic\Stat.cs" />

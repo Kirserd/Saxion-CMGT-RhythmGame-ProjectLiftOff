@@ -3,7 +3,7 @@ using GXPEngine;
 
 public partial class Setup : Game
 {  
-    public void LoadLevel(string key)
+    public void LoadLevel(string key, bool twoPlayers = false)
     {
         #region Switch by key
         Level level = null;
@@ -20,30 +20,40 @@ public partial class Setup : Game
         #region Level Setups
         void ExampleLevel()
         {
-            level = new Level("ExampleLevel", new Vector2(0, 0));
-            level.LateAddChildren(new GameObject[]
+            level = new Level("ExampleLevel");
+            level.AddChildren(new GameObject[]
             {
-                new Unit
+                new Enemy
                 (
-                    position: new Vector2(width/2, height/2),
+                    sequencePath: "ExampleSequence",
+                    position: new Vector2(width / 2, height / 2),
                     hp: new Stat(10),
                     ms: new Stat(2),
                     filename:"Checker"
-
                 ),
-                
                 new Player
                 (
-                    position: new Vector2(width/2, height/2),
+                    position: new Vector2(width / 3, height * 2 / 3),
                     hp: new Stat(10),
-                    ms: new Stat(2),
-                    filename: "Player",
-                    cols: 1,
-                    rows: 1
-                )
-                
-            }) ;
+                    ms: new Stat(0.4f)
+                ),
+            });
             ObjectPool<Bullet>.GetInstance(typeof(Bullet)).InitPool(64);
+        }
+        #endregion
+
+        #region Second player
+        if (twoPlayers)
+        {
+            level.LateAddChild
+            (
+                new Player
+                (
+                    position: new Vector2(width * 2 / 3, height * 2 / 3),
+                    hp: new Stat(10),
+                    ms: new Stat(0.4f)
+                )
+            );
         }
         #endregion
 

@@ -12,15 +12,18 @@ public class Bullet : AnimationSprite
     );
     protected virtual void Move()
     {
-        x += Mathf.Sin(rotation);
-        y += Mathf.Cos(rotation);
+        x += 10 * Mathf.Sin(rotation);
+        y += 10 * Mathf.Cos(rotation);
     }
     protected virtual bool DealDamage(Unit unit)
     {
         if (Owner is null || unit.GetType() == Owner.GetType())
             return false;
 
-        unit.HP.ChangeAmount(-_damage);
+        if (unit is Player player && player.IsImmortal)
+            return false;
+
+        unit.HealthPoints.ChangeAmount(-_damage);
         return true;
     }
     protected virtual void ReturnToPool() => ObjectPool<Bullet>.GetInstance(typeof(Bullet)).ReturnObject(this);
@@ -59,6 +62,12 @@ public class Bullet : AnimationSprite
         if (!visible)
             return;
         Move();
+        CheckBoundaries();
+    }
+    private void CheckBoundaries()
+    {
+        if (Vector2.Distance(new Vector2(x, y), new Vector2(Owner.x, Owner.y)) > 1200)
+            ReturnToPool();
     }
     private void OnCollision(GameObject other)
     {
@@ -67,24 +76,4 @@ public class Bullet : AnimationSprite
                 ReturnToPool();
     }
     #endregion
-}
-
-public class ExampleBullet : Bullet
-{
-    public ExampleBullet() { }
-
-    protected override void Move()
-    {
-        base.Move();       
-    }
-
-    protected override void ReturnToPool() => ObjectPool<ExampleBullet>.GetInstance(typeof(ExampleBullet)).ReturnObject(this);
-
-    protected override void SetCorrespondingParameters() =>
-    ResetParameters
-    (
-        "ExampleBullet",
-        cols: 1,
-        rows: 1
-    );
 }

@@ -4,7 +4,7 @@ using System;
 public class ObjectPool<T> where T : class, new()
 {
     private static Dictionary<Type, ObjectPool<T>> _pools = new Dictionary<Type, ObjectPool<T>>();
-
+    private List<T> _pool = new List<T>();
     private static ObjectPool<T> CreateInstance(Type type)
     {
         ObjectPool<T> pool = new ObjectPool<T>();
@@ -18,21 +18,22 @@ public class ObjectPool<T> where T : class, new()
 
         return _pools[type];
     }
-    private List<T> _pool = new List<T>();
 
     public T GetObject(object owner)
     {
+        T obj;
         if (_pool.Count > 0)
         {
-            T obj = _pool[_pool.Count - 1];
+            obj = _pool[_pool.Count - 1];
             _pool.RemoveAt(_pool.Count - 1);
-            if (obj is Bullet bullet) 
-                bullet.Activate(owner as Unit);
-
-            return obj;
         }
-        else
-            return null;
+        else 
+            obj = new T();
+
+        if (obj is Bullet bullet)
+            bullet.Activate(owner as Unit);
+
+        return obj;
     }
 
     public void ReturnObject(T obj)

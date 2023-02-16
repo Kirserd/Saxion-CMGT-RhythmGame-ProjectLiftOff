@@ -4,19 +4,7 @@ public partial class Setup : Game
 {
     public delegate void OnGameUpdateHandler();
     public static event OnGameUpdateHandler OnGameUpdate;
-    private bool started = false;
-    private void Update()
-    {
-        // TODO PASS TO GUI HANDLER
-        if (!started)
-        {
-            LevelManager.LoadLevel("ExampleLevel");
-            started = true;
-        }
-        // TODO PASS TO GUI HANDLER
-        OnGameUpdate.Invoke();
-    }
-
+    private void Update() => OnGameUpdate.Invoke();
     private static void Main() => new Setup();
     public Setup() : base(1280, 720, false, pPixelArt: true, pRealWidth: Settings.Screen.Width, pRealHeight: Settings.Screen.Height)
     {
@@ -32,14 +20,22 @@ public partial class Setup : Game
         {
             OnGameUpdate += Camera.Interpolate;
             OnGameUpdate += LevelTransitions.Timer;
+            OnGameUpdate += InputManager.ListenToInput;
+            OnGameUpdate += FirstLoad;
             LevelManager.AfterLevelLoaded += LevelTransitions.FadeOut;
             LevelManager.BeforeLevelDisposed += LevelTransitions.FadeIn;
             LevelManager.AfterLevelDisposed += LevelManager.ShowLevel;
             LevelTransitions.OnFadeInFinished += LevelManager.DisposeLevel;
+            Level.OnPlayerAdded += () => Camera.AddFocus(Level.Players[Level.Players.Count - 1]);
         }
 
         settings();
         subscriptions();
         Start();
+    }
+    private void FirstLoad()
+    {
+        LevelManager.LoadLevel("ExampleLevel", true);
+        OnGameUpdate -= FirstLoad;
     }
 }

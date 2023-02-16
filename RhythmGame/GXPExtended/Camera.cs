@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 public static class Camera
 {
-    private static bool _state = false;
+    private const float INTERPOLATION_STEP = 0.003f;
+
+    private static bool _state = true;
     private static Transformable _level;
     private static List<Transformable> _focuses = new List<Transformable>();
 
@@ -22,26 +24,33 @@ public static class Camera
         _cameraPosition = new Vector2
         (
             _level.x,
-            _level.y
+            _level.y 
         );
 
+        _destination = Vector2.zero;
         foreach (Transformable focus in _focuses)
         {
             _destination = new Vector2
             (
-                _destination.x + focus.x,
-                _destination.y + focus.y
+                _destination.x - focus.x,
+                _destination.y - focus.y
             );
         }
         _destination /= _focuses.Count;
 
+        _destination = new Vector2
+        (
+            _destination.x + Game.main.width / 2,
+            _destination.y + Game.main.height / 2
+        );
+
         Vector2 interpolatedPosition = Vector2.Lerp
         (
             _cameraPosition,
-            _destination, 
-            0.04f
+            _destination,
+            INTERPOLATION_STEP * Time.deltaTime
         );
-        
+
         _level.SetXY
         (
             interpolatedPosition.x,
