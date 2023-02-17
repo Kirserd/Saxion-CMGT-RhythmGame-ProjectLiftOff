@@ -2,10 +2,6 @@
 using GXPEngine;
 using GXPEngine.Core;
 
-/// <summary>
-/// This is manager class, which allows you
-/// to manage sound instances.
-/// </summary>
 public static class SoundManager
 {
     #region Fields
@@ -30,7 +26,7 @@ public static class SoundManager
 
     private static SoundChannel LoadSound(string filename, bool looping, bool streaming)
     {
-        Sound sound = new Sound(Settings.AssetsPath + "Sounds/" + filename + ".wav", looping, streaming);
+        Sound sound = new Sound(Settings.AssetsPath + "Sounds\\" + filename + ".wav", looping, streaming);
         SoundChannel soundChannel = sound.Play(volume: Settings.Volume);
         return soundChannel;
     }

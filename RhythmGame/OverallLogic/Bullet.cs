@@ -3,17 +3,20 @@
 public class Bullet : AnimationSprite
 {
     #region CUI(Code User Interface)
-    protected virtual void SetCorrespondingParameters() => 
-    ResetParameters
-    (
-        "StandardBullet", 
-        cols: 1, 
-        rows: 1
-    );
+    protected virtual void SetCorrespondingParameters()
+    {
+        ResetParameters
+        (
+            "StandardBullet",
+            cols: 1,
+            rows: 1,
+            addCollider: false
+        );
+    }
     protected virtual void Move()
     {
-        x += 10 * Mathf.Sin(rotation);
-        y += 10 * Mathf.Cos(rotation);
+        x += 7 * Mathf.Sin(rotation);
+        y += 7 * Mathf.Cos(rotation);
     }
     protected virtual bool DealDamage(Unit unit)
     {
@@ -30,6 +33,7 @@ public class Bullet : AnimationSprite
     #endregion 
 
     #region Fields and properties
+    protected const float COLLISION_RADIUS = 20f;
     public Unit Owner;
     
     private float _damage;
@@ -37,7 +41,7 @@ public class Bullet : AnimationSprite
     #endregion
 
     #region Constructor
-    public Bullet() : base("Empty", 0, 0, addCollider: true) { }
+    public Bullet() : base("Empty", 0, 0, addCollider: false) { }
     #endregion
 
     #region Object pool communication
@@ -64,14 +68,44 @@ public class Bullet : AnimationSprite
         Move();
         CheckBoundaries();
     }
+    private void Update() => CheckCollisions();
     private void CheckBoundaries()
     {
-        if (Vector2.Distance(new Vector2(x, y), new Vector2(Owner.x, Owner.y)) > 1200)
-            ReturnToPool();
+        float distance = Vector2.Distance
+        (
+            new Vector2(x, y), 
+            new Vector2
+            (
+                Game.main.width / 2, 
+                Game.main.height / 2
+            )
+        );
+        if (distance > 620)
+        {
+            if (distance > 960)
+                ReturnToPool();
+
+            alpha = 0;
+        }
+        else
+            alpha = 1;
     }
-    private void OnCollision(GameObject other)
+    private void CheckCollisions()
     {
-        if (visible && other is Unit unit)
+        Unit[] units = Level.Units.ToArray();
+        foreach (Unit unit in units)
+        {
+            if (CustomHitTest(unit))
+                CustomOnCollision(unit);
+        }
+    }
+    private bool CustomHitTest(Unit unit)
+    {
+        return Vector2.Distance(new Vector2(x, y), new Vector2(unit.x, unit.y)) < COLLISION_RADIUS;
+    }
+    private void CustomOnCollision(Unit unit)
+    {
+        if (visible)
             if (DealDamage(unit))
                 ReturnToPool();
     }

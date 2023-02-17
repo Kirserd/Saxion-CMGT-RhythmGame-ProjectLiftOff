@@ -1,8 +1,7 @@
-using System.Windows.Forms;
 using GXPEngine;
 
 public partial class Setup : Game
-{  
+{
     public void LoadLevel(string key, bool twoPlayers = false)
     {
         #region Switch by key
@@ -20,16 +19,19 @@ public partial class Setup : Game
         #region Level Setups
         void ExampleLevel()
         {
-            level = new Level("ExampleLevel");
+            SoundManager.PlayOnce("Level");
+            level = new Level("Level");
+            Sprite background;
             level.AddChildren(new GameObject[]
-            {
+            { 
+                background = new Sprite("LevelBounds"),
                 new Enemy
                 (
                     sequencePath: "ExampleSequence",
                     position: new Vector2(width / 2, height / 2),
                     hp: new Stat(10),
                     ms: new Stat(2),
-                    filename:"Checker"
+                    filename:"Enemy"
                 ),
                 new Player
                 (
@@ -38,7 +40,8 @@ public partial class Setup : Game
                     ms: new Stat(0.4f)
                 ),
             });
-            ObjectPool<Bullet>.GetInstance(typeof(Bullet)).InitPool(64);
+            background.SetOrigin(0, height / 2.8f);
+            ObjectPool<Bullet>.GetInstance(typeof(Bullet)).InitPool(264);
         }
         #endregion
 

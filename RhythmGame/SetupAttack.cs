@@ -13,10 +13,16 @@ public partial class Setup : Game
         switch (key)
         {
             case "ExampleCircleAttack":
-                ExampleCircleAttack();
+                CircleAttack();
                 break;
             case "WallAttack":
                 WallAttack();
+                break;
+            case "WallAttack2":
+                WallAttack2();
+                break;
+            case "CrossAttack":
+                CrossAttack();
                 break;
             default:
                 break;
@@ -24,7 +30,7 @@ public partial class Setup : Game
         #endregion
 
         #region Attack Setup
-        void ExampleCircleAttack()
+        void CircleAttack()
         {
             float angle = 0;
             for (int i = 0; i < 16; i++)
@@ -33,19 +39,45 @@ public partial class Setup : Game
 
                 bullet.SetXY(atX, atY);
                 bullet.rotation = angle;
-                angle += 45;
+                angle += 0.5708f;
             }
         }
         void WallAttack()
         {
-            int bulletWall = 720;
+            int bulletWall = 1040;
             for (int i = 0; i < 50; i++)
             {
                 Bullet bullet = ObjectPool<Bullet>.GetInstance(typeof(Bullet)).GetObject(owner);
 
-                bullet.SetXY(500, bulletWall);
+                bullet.SetXY(0, bulletWall);
                 bullet.rotation = 1.5708f;
-                bulletWall -= 30;
+                bulletWall -= 40;
+
+            }
+        }
+        void WallAttack2()
+        {
+            int bulletWall = 1020;
+            for (int i = 0; i < 50; i++)
+            {
+                Bullet bullet = ObjectPool<Bullet>.GetInstance(typeof(Bullet)).GetObject(owner);
+
+                bullet.SetXY(1240, bulletWall);
+                bullet.rotation = 4.6708f;
+                bulletWall -= 40;
+
+            }
+        }
+        void CrossAttack()
+        {
+            float angle = 0.785398163f;
+            for (int i = 0; i < 50; i++)
+            {
+                Bullet bullet = ObjectPool<Bullet>.GetInstance(typeof(Bullet)).GetObject(owner);
+
+                bullet.SetXY(atX, atY);
+                bullet.rotation = angle;
+                angle += 90 * Mathf.PI / 180;
 
             }
         }

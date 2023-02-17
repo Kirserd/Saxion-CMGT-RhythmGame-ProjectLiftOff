@@ -2,7 +2,7 @@
 
 public class Player : Unit
 {
-    public const float DASH_POWER = 100;
+    public const float DASH_POWER = 120;
     public const float DASH_QUICKNESS = 0.4f;
 
     private Vector2 _direction;
@@ -13,9 +13,10 @@ public class Player : Unit
     private bool _isDashing = false;
     public bool IsImmortal { get => _isDashing; }
 
-    public Player(Vector2 position, Stat hp, Stat ms) : base(position, hp, ms, "Player", 1, 1) 
+    public Player(Vector2 position, Stat hp, Stat ms) : base(position, hp, ms, "Empty", 1, 1) 
     {
         Level.OnPlayerAdded += SubscribeToInput;
+        SetOrigin(width / 2, height / 2);
     }
     private void SubscribeToInput()
     {
@@ -26,6 +27,8 @@ public class Player : Unit
         InputManager.OnLeftButtonPressed[id] += () => SetDirection(new Vector2(-1, _direction.y));
         InputManager.OnSpaceButtonPressed[id] += () => StartDash();
 
+        ResetParameters("Player" + id);
+
         Level.OnPlayerAdded -= SubscribeToInput;
     }
     private void Update()
@@ -33,13 +36,13 @@ public class Player : Unit
         if (!ValidateUpdate())
             return;
 
-        if (_isActive) 
+        if (_isActive)
         {
             if (_isDashing)
                 Dash();
             else
                 Move(_direction);
-        } 
+        }
     }
     private void SetDirection(Vector2 direction)
     {
@@ -57,6 +60,14 @@ public class Player : Unit
             y + MoveSpeed.CurrentAmount * direction.y * Time.deltaTime
         );
         _direction = Vector2.zero;
+        ClampToBoundaries();
+    }
+    private void ClampToBoundaries()
+    {
+        Vector2 center = new Vector2(Game.main.width / 2, Game.main.height / 2);
+        Vector2 playerPos = new Vector2(x, y);
+        Vector2 clampedPos = Vector2.Distance(playerPos, center) <= Level.MAX_RADIUS ? playerPos : center + (playerPos - center).normalized * Level.MAX_RADIUS;
+        SetXY(clampedPos.x, clampedPos.y);
     }
     private void StartDash() 
     {
