@@ -12,9 +12,10 @@ public class Bullet : AnimationSprite
             rows: 1,
             addCollider: false
         );
+        SetOrigin(width / 2, height / 2);
         CollisionRadius = 30f;
-        Speed = 6f;
-        Damage = 1f;
+        Speed = 3f;
+        Damage = 1;
     }
     protected virtual void Move()
     {
@@ -29,7 +30,7 @@ public class Bullet : AnimationSprite
         if (unit is Player player && player.IsImmortal)
             return false;
 
-        unit.HealthPoints.ChangeAmount(-Damage);
+        unit.ChangeHP(-Damage);
         return true;
     }
     protected virtual void ReturnToPool() => ObjectPool<Bullet>.GetInstance(typeof(Bullet)).ReturnObject(this);
@@ -40,8 +41,8 @@ public class Bullet : AnimationSprite
 
     protected float CollisionRadius;
     protected float Speed;
-    protected float Damage;
-    public void SetDamage(float amount, object sender) => Damage = sender is Unit? amount : Damage;
+    protected int Damage;
+    public void SetDamage(int amount, object sender) => Damage = sender is Unit? amount : Damage;
     #endregion
 
     #region Constructor
@@ -103,8 +104,7 @@ public class Bullet : AnimationSprite
                 CustomOnCollision(unit);
         }
     }
-    protected virtual bool CustomHitTest(Unit unit) => Vector2.Distance(new Vector2(x, y), new Vector2(unit.x, unit.y)) < CollisionRadius;
-    
+    protected virtual bool CustomHitTest(Unit unit) => Vector2.Distance(new Vector2(x, y), new Vector2(unit.x, unit.y)) < CollisionRadius;  
     protected virtual void CustomOnCollision(Unit unit)
     {
         if (visible)
@@ -112,34 +112,4 @@ public class Bullet : AnimationSprite
                 ReturnToPool();
     }
     #endregion
-}
-public class LaserBullet : Bullet
-{
-    public LaserBullet() { }
-    protected override void SetCorrespondingParameters()
-    {
-        ResetParameters
-        (
-            "LaserBullet",
-            cols: 10,
-            rows: 1,
-            addCollider: true
-        );
-        Speed = 4f;
-        Damage = 1f;
-        SetOrigin(width / 2, height / 2);
-        SetScaleXY(0.1f, 1);
-    }
-    protected override bool CustomHitTest(Unit unit) => HitTest(unit);
-    protected override void CustomOnCollision(Unit unit)
-    {
-        if (visible)
-            DealDamage(unit);
-    }
-    protected override void Update()
-    {
-        base.Update();
-            AnimateFixed();
-    }
-    protected override void ReturnToPool() => ObjectPool<LaserBullet>.GetInstance(typeof(LaserBullet)).ReturnObject(this);
 }

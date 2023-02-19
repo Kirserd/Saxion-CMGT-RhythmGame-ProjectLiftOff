@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>GXPEngine</RootNamespace>
     <AssemblyName>GXPEngine</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -68,6 +68,7 @@
     <Compile Include="Managers\EventSequence.cs" />
     <Compile Include="OverallLogic\Enemy.cs" />
     <Compile Include="OverallLogic\FastBullet.cs" />
+    <Compile Include="OverallLogic\LaserBullet.cs" />
     <Compile Include="OverallLogic\ObjectPool.cs" />
     <Compile Include="OverallLogic\Player.cs" />
     <Compile Include="OverallLogic\Stat.cs" />
@@ -113,9 +114,6 @@
     <Compile Include="GXPEngine\FMOD\FMODSoundSystem.cs" />
     <Compile Include="GXPEngine\SoLoud\Soloud.cs" />
     <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup />
 </Project>

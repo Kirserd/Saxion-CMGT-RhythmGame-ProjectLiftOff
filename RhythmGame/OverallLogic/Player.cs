@@ -2,8 +2,8 @@
 
 public class Player : Unit
 {
-    public const float DASH_POWER = 100;
-    public const float DASH_QUICKNESS = 0.4f;
+    public const float DASH_POWER = 110;
+    public const float DASH_QUICKNESS = 0.8f;
 
     private bool[] _directionState = new bool[2] { true, true};
 
@@ -13,12 +13,47 @@ public class Player : Unit
 
     private bool _isActive = true;
     private bool _isDashing = false;
-    public bool IsImmortal { get => _isDashing; }
+    public bool IsImmortal { get => (_isDashing || _isImmortal); }
+    private bool _isImmortal;
+    private bool _alphaDirection = false;
+    private byte _blinkCounter = 0;
 
-    public Player(Vector2 position, Stat hp, Stat ms) : base(position, hp, ms, "Empty", 1, 1) 
+    private int _hpPrevAmount;
+
+    public Player(Vector2 position, int hp, Stat ms) : base(position, hp, ms, "Empty", 1, 1) 
     {
+        HP = hp;
+        _hpPrevAmount = hp;
         Level.OnPlayerAdded += SubscribeToInput;
         SetOrigin(width / 2, height / 2);
+    }
+    private void Immortality()
+    {
+        if(alpha >= 0 && !_alphaDirection)
+        {
+            alpha -= Time.deltaTime / 10;
+            if (alpha <= 0)
+            {
+                _alphaDirection = true;
+                _blinkCounter++;
+            }
+        }
+        else if(alpha <= 1 && _alphaDirection)
+        {
+            alpha += Time.deltaTime / 10;
+            if (alpha >= 1)
+            {
+                _alphaDirection = false;
+                _blinkCounter++;
+            }
+        }
+        if(_blinkCounter >= 24)
+        {
+            _isImmortal = false;
+            _blinkCounter = 0;
+            _alphaDirection = false;
+            alpha = 1;
+        }
     }
     private void SubscribeToInput()
     {
@@ -37,6 +72,15 @@ public class Player : Unit
     {
         if (!ValidateUpdate())
             return;
+
+        if (_isImmortal) 
+            Immortality();
+
+        if (_hpPrevAmount > HP)
+        {
+            _hpPrevAmount = HP;
+            _isImmortal = true;
+        }
 
         if (_isActive)
         {

@@ -1,12 +1,20 @@
 ﻿using GXPEngine;
 public class Unit : AnimationSprite
 {
-    public Stat HealthPoints { get; } 
+    protected int HP;
+    protected int MaxHp;
+    public void ChangeHP(int amount)
+    {
+        HP += amount;
+        if (HP > MaxHp) HP = MaxHp;
+        if (HP < 0) HP = 0;
+    }
     public Stat MoveSpeed { get; } 
-    public Unit(Vector2 position, Stat hp, Stat ms, string filename = "Empty", int cols = 1, int rows = 1) : base(filename, cols, rows)
+    public Unit(Vector2 position, int hp, Stat ms, string filename = "Empty", int cols = 1, int rows = 1) : base(filename, cols, rows)
     {
         SetXY(position.x, position.y);
-        HealthPoints = hp;
+        HP = hp;
+        MaxHp = hp;
         MoveSpeed = ms;
     }
     protected bool ValidateUpdate()

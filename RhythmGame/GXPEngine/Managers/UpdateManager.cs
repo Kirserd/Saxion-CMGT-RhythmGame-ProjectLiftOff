@@ -38,7 +38,8 @@ namespace GXPEngine.Managers
 			timeSinceLastFixedUpdate += Time.deltaTime;	
 			while(timeSinceLastFixedUpdate >= fixedTimeStep)
 			{
-				_fixedUpdateDelegates();
+				if(_fixedUpdateDelegates != null)
+					_fixedUpdateDelegates();
 				timeSinceLastFixedUpdate -= fixedTimeStep;
 			}/**/
 		}

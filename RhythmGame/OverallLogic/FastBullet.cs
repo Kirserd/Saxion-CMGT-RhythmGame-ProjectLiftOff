@@ -12,7 +12,7 @@
         );
         CollisionRadius = 30f;
         Speed = 10f;
-        Damage = 1f;
+        Damage = 1;
     }
     protected override void ReturnToPool() => ObjectPool<FastBullet>.GetInstance(typeof(FastBullet)).ReturnObject(this);
 }

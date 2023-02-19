@@ -31,14 +31,14 @@ public partial class Setup : Game
                 (
                     sequencePath: "ExampleSequence",
                     position: new Vector2(width / 2, height / 2),
-                    hp: new Stat(10),
+                    hp: 10,
                     ms: new Stat(2),
                     filename:"Enemy"
                 ),
                 new Player
                 (
                     position: new Vector2(width / 3, height * 2 / 3),
-                    hp: new Stat(10),
+                    hp: 10,
                     ms: new Stat(0.4f)
                 ),
             });
@@ -55,7 +55,7 @@ public partial class Setup : Game
                     new Player
                     (
                         position: new Vector2(width * 2 / 3, height * 2 / 3),
-                        hp: new Stat(10),
+                        hp: 10,
                         ms: new Stat(0.4f)
                     )
                 );
