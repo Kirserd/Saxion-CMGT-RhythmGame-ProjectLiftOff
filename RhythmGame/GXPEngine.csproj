@@ -54,6 +54,8 @@
     <Compile Include="GXPExtended\Camera.cs" />
     <Compile Include="LevelSystems\LevelTransitions.cs" />
     <Compile Include="LevelSystems\Level.cs" />
+    <Compile Include="Managers\EventData.cs" />
+    <Compile Include="Managers\IEventOwner.cs" />
     <Compile Include="Managers\LevelManager.cs" />
     <Compile Include="GXPExtended\GUI\Message.cs" />
     <Compile Include="GXPExtended\GUI\ValueDisplayer.cs" />
@@ -65,6 +67,7 @@
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Managers\EventSequence.cs" />
     <Compile Include="OverallLogic\Enemy.cs" />
+    <Compile Include="OverallLogic\FastBullet.cs" />
     <Compile Include="OverallLogic\ObjectPool.cs" />
     <Compile Include="OverallLogic\Player.cs" />
     <Compile Include="OverallLogic\Stat.cs" />
@@ -72,6 +75,7 @@
     <Compile Include="OverallLogic\Bullet.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SetupAttack.cs" />
+    <Compile Include="SetupGUI.cs" />
     <Compile Include="SetupLevel.cs" />
     <Compile Include="SetupMain.cs" />
     <Compile Include="GXPEngine\Core\Canvas.cs" />

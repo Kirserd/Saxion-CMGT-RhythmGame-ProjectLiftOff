@@ -12,11 +12,14 @@ public class Bullet : AnimationSprite
             rows: 1,
             addCollider: false
         );
+        CollisionRadius = 30f;
+        Speed = 6f;
+        Damage = 1f;
     }
     protected virtual void Move()
     {
-        x += 7 * Mathf.Sin(rotation);
-        y += 7 * Mathf.Cos(rotation);
+        x += Speed * Mathf.Sin(rotation);
+        y += Speed * Mathf.Cos(rotation);
     }
     protected virtual bool DealDamage(Unit unit)
     {
@@ -26,18 +29,19 @@ public class Bullet : AnimationSprite
         if (unit is Player player && player.IsImmortal)
             return false;
 
-        unit.HealthPoints.ChangeAmount(-_damage);
+        unit.HealthPoints.ChangeAmount(-Damage);
         return true;
     }
     protected virtual void ReturnToPool() => ObjectPool<Bullet>.GetInstance(typeof(Bullet)).ReturnObject(this);
     #endregion 
 
     #region Fields and properties
-    protected const float COLLISION_RADIUS = 20f;
     public Unit Owner;
-    
-    private float _damage;
-    public void SetDamage(float amount, object sender) => _damage = sender is Unit? amount : _damage;
+
+    protected float CollisionRadius;
+    protected float Speed;
+    protected float Damage;
+    public void SetDamage(float amount, object sender) => Damage = sender is Unit? amount : Damage;
     #endregion
 
     #region Constructor
@@ -61,15 +65,15 @@ public class Bullet : AnimationSprite
     #endregion
 
     #region Manager listeners
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (!visible)
             return;
         Move();
         CheckBoundaries();
     }
-    private void Update() => CheckCollisions();
-    private void CheckBoundaries()
+    protected virtual void Update() => CheckCollisions();
+    protected void CheckBoundaries()
     {
         float distance = Vector2.Distance
         (
@@ -90,7 +94,7 @@ public class Bullet : AnimationSprite
         else
             alpha = 1;
     }
-    private void CheckCollisions()
+    protected virtual void CheckCollisions()
     {
         Unit[] units = Level.Units.ToArray();
         foreach (Unit unit in units)
@@ -99,15 +103,43 @@ public class Bullet : AnimationSprite
                 CustomOnCollision(unit);
         }
     }
-    private bool CustomHitTest(Unit unit)
-    {
-        return Vector2.Distance(new Vector2(x, y), new Vector2(unit.x, unit.y)) < COLLISION_RADIUS;
-    }
-    private void CustomOnCollision(Unit unit)
+    protected virtual bool CustomHitTest(Unit unit) => Vector2.Distance(new Vector2(x, y), new Vector2(unit.x, unit.y)) < CollisionRadius;
+    
+    protected virtual void CustomOnCollision(Unit unit)
     {
         if (visible)
             if (DealDamage(unit))
                 ReturnToPool();
     }
     #endregion
+}
+public class LaserBullet : Bullet
+{
+    public LaserBullet() { }
+    protected override void SetCorrespondingParameters()
+    {
+        ResetParameters
+        (
+            "LaserBullet",
+            cols: 10,
+            rows: 1,
+            addCollider: true
+        );
+        Speed = 4f;
+        Damage = 1f;
+        SetOrigin(width / 2, height / 2);
+        SetScaleXY(0.1f, 1);
+    }
+    protected override bool CustomHitTest(Unit unit) => HitTest(unit);
+    protected override void CustomOnCollision(Unit unit)
+    {
+        if (visible)
+            DealDamage(unit);
+    }
+    protected override void Update()
+    {
+        base.Update();
+            AnimateFixed();
+    }
+    protected override void ReturnToPool() => ObjectPool<LaserBullet>.GetInstance(typeof(LaserBullet)).ReturnObject(this);
 }

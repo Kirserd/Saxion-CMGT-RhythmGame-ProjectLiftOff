@@ -9,6 +9,8 @@ public partial class Setup : Game
 
         switch (key)
         {
+            case "MenuLevel": MenuLevel();
+                break;
             case "ExampleLevel": ExampleLevel(); 
                 break;
             default:
@@ -19,7 +21,7 @@ public partial class Setup : Game
         #region Level Setups
         void ExampleLevel()
         {
-            SoundManager.PlayOnce("Level");
+            SoundManager.PlayOnce("Level", true);
             level = new Level("Level");
             Sprite background;
             level.AddChildren(new GameObject[]
@@ -42,21 +44,34 @@ public partial class Setup : Game
             });
             background.SetOrigin(0, height / 2.8f);
             ObjectPool<Bullet>.GetInstance(typeof(Bullet)).InitPool(264);
-        }
-        #endregion
+            ObjectPool<FastBullet>.GetInstance(typeof(FastBullet)).InitPool(164);
+            ObjectPool<LaserBullet>.GetInstance(typeof(LaserBullet)).InitPool(12);
 
-        #region Second player
-        if (twoPlayers)
-        {
-            level.LateAddChild
-            (
-                new Player
+            #region Second player
+            if (twoPlayers)
+            {
+                level.LateAddChild
                 (
-                    position: new Vector2(width * 2 / 3, height * 2 / 3),
-                    hp: new Stat(10),
-                    ms: new Stat(0.4f)
-                )
-            );
+                    new Player
+                    (
+                        position: new Vector2(width * 2 / 3, height * 2 / 3),
+                        hp: new Stat(10),
+                        ms: new Stat(0.4f)
+                    )
+                );
+            }
+            #endregion
+        }
+        void MenuLevel()
+        {
+            SoundManager.PlayOnce("Menu", true);
+            level = new Level("Menu");
+            Sprite background;
+            level.AddChildren(new GameObject[]
+            {
+                background = new Sprite("LevelBounds"),
+            });
+            background.SetOrigin(0, 0);
         }
         #endregion
 

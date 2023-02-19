@@ -1,5 +1,5 @@
 ﻿using GXPEngine;
-public class Unit : AnimationSprite, IEventOwner
+public class Unit : AnimationSprite
 {
     public Stat HealthPoints { get; } 
     public Stat MoveSpeed { get; } 
@@ -16,7 +16,7 @@ public class Unit : AnimationSprite, IEventOwner
 
         return true;
     }
-    protected void Attack(string key, float atX = -1, float atY = -1) => (Game.main as Setup).LoadEvent(key, this, atX, atY);
+    protected void Attack(string key) => (Game.main as Setup).LoadEvent(key, this as IEventOwner);
     public override object Clone() => MemberwiseClone();
 
     public virtual void OnEventsFinished(){}

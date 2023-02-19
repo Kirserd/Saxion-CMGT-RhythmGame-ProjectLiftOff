@@ -2,8 +2,10 @@
 
 public class Player : Unit
 {
-    public const float DASH_POWER = 120;
+    public const float DASH_POWER = 100;
     public const float DASH_QUICKNESS = 0.4f;
+
+    private bool[] _directionState = new bool[2] { true, true};
 
     private Vector2 _direction;
     private Vector2 _lastDirection;
@@ -43,9 +45,14 @@ public class Player : Unit
             else
                 Move(_direction);
         }
+        ClampToBoundaries();
     }
+    private void SetDirectionActive(int id, bool state) => _directionState[id] = state;
     private void SetDirection(Vector2 direction)
     {
+        if (!_directionState[0]) direction = new Vector2(_direction.x, direction.y);
+        if (!_directionState[1]) direction = new Vector2(direction.x, _direction.y);
+
         _direction = direction;
         if (direction == Vector2.zero)
             return;
@@ -60,7 +67,6 @@ public class Player : Unit
             y + MoveSpeed.CurrentAmount * direction.y * Time.deltaTime
         );
         _direction = Vector2.zero;
-        ClampToBoundaries();
     }
     private void ClampToBoundaries()
     {

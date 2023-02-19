@@ -2,27 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System;
-
-public interface IEventOwner
-{
-    float x { get; }
-    float y { get; }
-    void OnEventsFinished();
-}
-
 public class EventSequence : GameObject
 {
-    public struct EventData
-    {
-        public string Name { get; }
-        public float Delay { get; }
-        public EventData(string name, float delay)
-        {
-            Name = name;
-            Delay = delay;
-        }
-        public void ShowInConsole() => System.Console.WriteLine($"[name: {Name}][delay: {Delay}]");   
-    }
     private List<EventData> _events = new List<EventData>();
     private IEventOwner _owner;
 
@@ -61,7 +42,7 @@ public class EventSequence : GameObject
                 else
                 {
                     delays.Add(delay);
-                    System.Console.WriteLine(delay);
+                    Console.WriteLine(delay);
                 }
             }
         }
@@ -74,6 +55,8 @@ public class EventSequence : GameObject
 
         return events;
     }
+    public void AddEventThere(EventData eventData) => _events.Insert(1, eventData);
+    
     private void Update()
     {
         if (_events.Count > 0)

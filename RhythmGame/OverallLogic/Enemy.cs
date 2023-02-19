@@ -5,6 +5,7 @@
     {
         _eventSequence = new EventSequence(EventSequence.ReadFromFile(sequencePath), this);
     }
+    public void AddEventThere(EventData eventData) => _eventSequence.AddEventThere(eventData);
     public override void OnEventsFinished()
     {
         //TODO Finish level instead of Destroy().
