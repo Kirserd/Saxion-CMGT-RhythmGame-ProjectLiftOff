@@ -20,11 +20,11 @@ public static class InputManager
     public static void ListenToInput()
     {
         #region 1st Player
-        if (Input.GetKey(Key.S)) OnUpButtonPressed[0].Invoke();
-        if (Input.GetKey(Key.W)) OnDownButtonPressed[0].Invoke();
-        if (Input.GetKey(Key.A)) OnLeftButtonPressed[0].Invoke();
-        if (Input.GetKey(Key.D)) OnRightButtonPressed[0].Invoke();
-        if (Input.GetKeyDown(Key.SPACE)) OnSpaceButtonPressed[0].Invoke();
+        if (Input.GetKey(Key.S) && OnUpButtonPressed[0] != null) OnUpButtonPressed[0].Invoke();
+        if (Input.GetKey(Key.W) && OnDownButtonPressed[0] != null) OnDownButtonPressed[0].Invoke();
+        if (Input.GetKey(Key.A) && OnLeftButtonPressed[0] != null) OnLeftButtonPressed[0].Invoke();
+        if (Input.GetKey(Key.D) && OnRightButtonPressed[0] != null) OnRightButtonPressed[0].Invoke();
+        if (Input.GetKeyDown(Key.SPACE) && OnSpaceButtonPressed[0] != null) OnSpaceButtonPressed[0].Invoke();
         #endregion
 
         #region 2nd Player

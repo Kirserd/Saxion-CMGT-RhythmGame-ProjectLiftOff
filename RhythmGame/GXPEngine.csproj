@@ -48,13 +48,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GUISystems\HorizontalList.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
     <Compile Include="GXPExtended\Camera.cs" />
+    <Compile Include="GUISystems\GUI.cs" />
     <Compile Include="LevelSystems\LevelTransitions.cs" />
     <Compile Include="LevelSystems\Level.cs" />
     <Compile Include="Managers\EventData.cs" />
+    <Compile Include="Managers\GUIManager.cs" />
     <Compile Include="Managers\IEventOwner.cs" />
     <Compile Include="Managers\LevelManager.cs" />
     <Compile Include="GXPExtended\GUI\Message.cs" />
@@ -67,13 +70,14 @@
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Managers\EventSequence.cs" />
     <Compile Include="OverallLogic\Enemy.cs" />
-    <Compile Include="OverallLogic\FastBullet.cs" />
-    <Compile Include="OverallLogic\LaserBullet.cs" />
+    <Compile Include="OverallLogic\Bullets\FastBullet.cs" />
+    <Compile Include="OverallLogic\Bullets\ChaoticBullet.cs" />
+    <Compile Include="OverallLogic\Bullets\LaserBullet.cs" />
     <Compile Include="OverallLogic\ObjectPool.cs" />
     <Compile Include="OverallLogic\Player.cs" />
     <Compile Include="OverallLogic\Stat.cs" />
     <Compile Include="OverallLogic\Unit.cs" />
-    <Compile Include="OverallLogic\Bullet.cs" />
+    <Compile Include="OverallLogic\Bullets\Bullet.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SetupAttack.cs" />
     <Compile Include="SetupGUI.cs" />

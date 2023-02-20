@@ -9,6 +9,9 @@ namespace GXPEngine
 	/// </summary>
 	public abstract class GameObject : Transformable, ICloneable
 	{
+		public delegate void BeforeDestroyHandler();
+		public BeforeDestroyHandler BeforeDestroy;
+
 		public string name;
 		private Collider _collider;
 		
@@ -185,6 +188,9 @@ namespace GXPEngine
 		/// </summary>
 		public virtual void Destroy ()
 		{
+			if (BeforeDestroy != null)
+				BeforeDestroy.Invoke();
+
 			destroyed = true;
 			// Detach from parent (and thus remove it from the managers):
 			if (parent != null) parent = null;
