@@ -25,13 +25,15 @@ public partial class Setup : Game
             level = new Level("Level");
             Sprite background;
             level.AddChildren(new GameObject[]
-            { 
+            {
                 background = new Sprite("LevelBounds"),
                 new Enemy
                 (
                     sequencePath: "ExampleSequence",
                     position: new Vector2(width / 2, height / 2),
                     hp: 10,
+                    cols: 6,
+                    rows: 2,
                     ms: new Stat(2),
                     filename:"Enemy"
                 ),
@@ -41,7 +43,7 @@ public partial class Setup : Game
                     hp: 10,
                     ms: new Stat(0.4f)
                 ),
-            });
+            }) ;
             background.SetOrigin(0, height / 2.8f);
             ObjectPool<Bullet>.GetInstance(typeof(Bullet)).InitPool(264);
             ObjectPool<FastBullet>.GetInstance(typeof(FastBullet)).InitPool(164);
