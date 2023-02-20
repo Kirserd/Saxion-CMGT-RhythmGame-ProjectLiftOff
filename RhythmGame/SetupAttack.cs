@@ -10,6 +10,12 @@ public partial class Setup : Game
             case "CircleAttack":
                 CircleAttack();
                 break;
+            case "ChaoticAttack":
+                ChaoticAttack(0);
+                break;
+            case "ChaoticAttack2":
+                ChaoticAttack(2.09f);
+                break;
             case "LaserAttack":
                 LaserAttack();
                 break;
@@ -67,11 +73,22 @@ public partial class Setup : Game
                 angle += 0.5708f;
             }
         }
+        void ChaoticAttack(float angle)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                ChaoticBullet bullet = ObjectPool<ChaoticBullet>.GetInstance(typeof(ChaoticBullet)).GetObject(owner);
+
+                bullet.SetXY(owner.x, owner.y);
+                bullet.rotation = angle;
+                angle += 2.09f;
+            }
+        }
         void LaserAttack()
         {
             LaserBullet bullet = ObjectPool<LaserBullet>.GetInstance(typeof(LaserBullet)).GetObject(owner);
             bullet.SetXY(0, height / 2);
-            bullet.rotation = 90 * Mathf.PI / 180;
+            bullet.rotation = 1.57f;
         }
         void LaserAttackReverse()
         {

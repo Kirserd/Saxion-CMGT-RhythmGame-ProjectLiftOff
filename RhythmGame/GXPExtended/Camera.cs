@@ -1,16 +1,23 @@
 ﻿using GXPEngine;
 using System.Collections.Generic;
+using System;
 public static class Camera
 {
     private const float INTERPOLATION_STEP = 0.003f;
+    private const float SHAKE_POWER = 5f;
+    private const float SHAKE_TIME = 18f;
 
     private static bool _state = true;
+    private static bool _shake = false;
     private static Transformable _level;
     private static List<Transformable> _focuses = new List<Transformable>();
 
     private static Vector2 _cameraPosition = Vector2.zero;
     private static Vector2 _destination = Vector2.zero;
 
+    private static float _shakeCounter;
+
+    public static void Shake() => _shake = true;
     public static void SetLevel(Transformable level) => _level = level;
     public static void AddFocus(Transformable focus) => _focuses.Add(focus);
     public static void ClearFocuses() => _focuses.Clear();
@@ -51,11 +58,31 @@ public static class Camera
             INTERPOLATION_STEP * Time.deltaTime
         );
 
-        _level.SetXY
-        (
-            interpolatedPosition.x,
-            interpolatedPosition.y
-        );
+
+        if (_shake)
+        {
+            _level.SetXY
+            (
+                interpolatedPosition.x + ((float)(new Random()).NextDouble() - 0.5f) * SHAKE_POWER,
+                interpolatedPosition.y + ((float)(new Random()).NextDouble() - 0.5f) * -SHAKE_POWER
+            );
+            Console.WriteLine((float)(new Random()).NextDouble() * SHAKE_POWER);
+
+            _shakeCounter += Time.deltaTime / 10;
+            if (_shakeCounter >= SHAKE_TIME)
+            {
+                _shakeCounter = 0;
+                _shake = false;
+            }
+        }
+        else
+        {
+            _level.SetXY
+            (
+                interpolatedPosition.x,
+                interpolatedPosition.y
+            );
+        }
     }
 }
 

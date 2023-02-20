@@ -79,6 +79,7 @@ public class Player : Unit
         if (_hpPrevAmount > HP)
         {
             _hpPrevAmount = HP;
+            Camera.Shake();
             _isImmortal = true;
         }
 

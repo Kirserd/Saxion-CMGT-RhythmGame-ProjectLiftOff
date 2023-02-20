@@ -1,7 +1,7 @@
 ﻿using GXPEngine;
 public static class LevelTransitions
 {
-    public delegate void OnFadeStartedHandler();
+   public delegate void OnFadeStartedHandler();
     public static OnFadeStartedHandler OnFadeStarted;
 
     public delegate void OnFadeInFinishedHandler();
@@ -26,7 +26,6 @@ public static class LevelTransitions
             return _fadingScreen;
         }
     }
-
     public static void FadeIn() => Fade(1);
     public static void FadeOut() => Fade(-1);
     private static void Fade(sbyte direction, float speed = 0.002f)

@@ -22,6 +22,7 @@ public partial class Setup : Game
         void ExampleLevel()
         {
             SoundManager.PlayOnce("Level", true);
+            GUIManager.LoadGUI("Level");
             level = new Level("Level");
             Sprite background;
             level.AddChildren(new GameObject[]
@@ -65,13 +66,8 @@ public partial class Setup : Game
         void MenuLevel()
         {
             SoundManager.PlayOnce("Menu", true);
+            GUIManager.LoadGUI("Menu");
             level = new Level("Menu");
-            Sprite background;
-            level.AddChildren(new GameObject[]
-            {
-                background = new Sprite("LevelBounds"),
-            });
-            background.SetOrigin(0, 0);
         }
         #endregion
 

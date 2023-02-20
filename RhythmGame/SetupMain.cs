@@ -22,9 +22,9 @@ public partial class Setup : Game
             OnGameUpdate += LevelTransitions.Timer;
             OnGameUpdate += InputManager.ListenToInput;
             OnGameUpdate += FirstLoad;
-            LevelManager.AfterLevelLoaded += LevelTransitions.FadeOut;
             LevelManager.BeforeLevelDisposed += LevelTransitions.FadeIn;
-            LevelManager.AfterLevelDisposed += LevelManager.ShowLevel;
+            LevelManager.AfterLevelDisposed += LevelManager.LoadLevel;
+            LevelManager.AfterLevelLoaded += LevelTransitions.FadeOut;
             LevelTransitions.OnFadeInFinished += LevelManager.DisposeLevel;
             Level.OnPlayerAdded += () => Camera.AddFocus(Level.Players[Level.Players.Count - 1]);
         }
@@ -35,7 +35,8 @@ public partial class Setup : Game
     }
     private void FirstLoad()
     {
-        LevelManager.LoadLevel("ExampleLevel", true);
+        LevelManager.LateLoadLevel("MenuLevel");
+        LevelManager.LoadLevel();
         OnGameUpdate -= FirstLoad;
     }
 }
