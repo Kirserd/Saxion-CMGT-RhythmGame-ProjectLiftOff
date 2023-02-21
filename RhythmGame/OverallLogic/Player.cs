@@ -5,7 +5,7 @@ public class Player : Unit
     public const float DASH_POWER = 110;
     public const float DASH_QUICKNESS = 0.8f;
 
-    private bool[] _directionState = new bool[2] { true, true};
+    private bool[] _directionState = new bool[2] { true, true };
 
     private Vector2 _direction;
     private Vector2 _lastDirection;
@@ -26,7 +26,7 @@ public class Player : Unit
 
     private int _hpPrevAmount;
 
-    public Player(Vector2 position, int hp, Stat ms) : base(position, hp, ms, "Empty", 1, 1) 
+    public Player(Vector2 position, int hp, Stat ms) : base(position, hp, ms, "Empty", 1, 1)
     {
         HP = hp;
         _hpPrevAmount = hp;
@@ -35,7 +35,7 @@ public class Player : Unit
     }
     private void Immortality()
     {
-        if(alpha >= 0 && !_alphaDirection)
+        if (alpha >= 0 && !_alphaDirection)
         {
             alpha -= Time.deltaTime / 10;
             if (alpha <= 0)
@@ -44,7 +44,7 @@ public class Player : Unit
                 _blinkCounter++;
             }
         }
-        else if(alpha <= 1 && _alphaDirection)
+        else if (alpha <= 1 && _alphaDirection)
         {
             alpha += Time.deltaTime / 10;
             if (alpha >= 1)
@@ -53,7 +53,7 @@ public class Player : Unit
                 _blinkCounter++;
             }
         }
-        if(_blinkCounter >= 24)
+        if (_blinkCounter >= 24)
         {
             _isImmortal = false;
             _blinkCounter = 0;
@@ -79,26 +79,27 @@ public class Player : Unit
         if (!ValidateUpdate())
             return;
 
-        if (_isImmortal) 
+        if (_isImmortal)
             Immortality();
 
         if (_hpPrevAmount > HP)
         {
+            SoundManager.PlayOnce("PlayerDamage");
             _hpPrevAmount = HP;
             Camera.Shake();
             _isImmortal = true;
         }
 
-        if(HP > 0)
+        if (HP > 0)
         {
             _scoreTimer += Time.deltaTime / 10;
-            if(_scoreTimer >= _scoreStep)
+            if (_scoreTimer >= _scoreStep)
             {
                 _scoreTimer = 0;
                 Level.AddScore(4, _id);
             }
         }
-        else 
+        else
         {
             Desubscribe();
             LateDestroy();
@@ -151,8 +152,9 @@ public class Player : Unit
         Vector2 clampedPos = Vector2.Distance(playerPos, center) <= Level.MAX_RADIUS ? playerPos : center + (playerPos - center).normalized * Level.MAX_RADIUS;
         SetXY(clampedPos.x, clampedPos.y);
     }
-    private void StartDash() 
+    private void StartDash()
     {
+        SoundManager.PlayOnce("Dash");
         _isDashing = true;
         _dashDestination = new Vector2
         (
@@ -169,7 +171,7 @@ public class Player : Unit
     {
         Vector2 interpolatedDashStep = Vector2.Lerp
         (
-            new Vector2(x,y),
+            new Vector2(x, y),
             _dashDestination,
             DASH_QUICKNESS
         );
