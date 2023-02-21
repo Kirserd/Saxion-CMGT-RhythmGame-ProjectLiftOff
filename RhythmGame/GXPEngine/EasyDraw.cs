@@ -12,7 +12,7 @@ namespace GXPEngine
 	/// </summary>
 	public class EasyDraw : Canvas 
 	{
-		static Font defaultFont = new Font ("Noto Sans", 15);
+		public static Font DefaultFont = new Font ("Noto Sans", 15);
 
 		public CenterMode HorizontalTextAlign = CenterMode.Min;
 		public CenterMode VerticalTextAlign = CenterMode.Max;
@@ -60,7 +60,7 @@ namespace GXPEngine
 		{
 			pen = new Pen (Color.White, 1);
 			brush = new SolidBrush (Color.White);
-			font = defaultFont;
+			font = DefaultFont;
 			if (!game.PixelArt) {
 				graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit; //AntiAlias;
 				graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;

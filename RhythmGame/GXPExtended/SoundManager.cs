@@ -56,6 +56,12 @@ public static class SoundManager
         }
     }
 
+    public static void StopAll()
+    {
+        foreach (string soundChannel in _loopingSoundChannels.Keys) 
+            StopSound(soundChannel);
+    }
+
     public static void PauseSound(string key)
     {
         if (_loopingSoundChannels.ContainsKey(key))

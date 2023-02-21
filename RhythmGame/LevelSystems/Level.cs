@@ -7,11 +7,20 @@ public class Level : Sprite
 
     public string Name { get; }
     public const float MAX_RADIUS = 600;
+    public static bool TwoPlayers = false;
+    public static int[] Score { get; } = new int[2];
     public static List<Player> Players{ get; private set; } = new List<Player>();
     public static List<Unit> Units { get; private set; } = new List<Unit>();
 
     public Level(string name) : base("Empty", false, false) => Name = name;
 
+    public static void CheckPlayers()
+    {
+        if(Players.Count == 0)
+            LevelManager.LateLoadLevel("MenuLevel");
+
+        SoundManager.StopAll();
+    }
     public override void AddChild(GameObject child)
     {
         if(child is Unit unit)
@@ -28,6 +37,14 @@ public class Level : Sprite
             return;
         }
         base.AddChild(child);
+    }
+    public static void AddScore(int amount, int id) => Score[id] += amount;
+    public static void ClearScores() 
+    {
+        for (int i = 0; i < Score.Length; i++)
+        {
+            Score[i] = 0;
+        }
     }
     public override object Clone() => MemberwiseClone();
 }

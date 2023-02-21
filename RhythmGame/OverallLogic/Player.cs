@@ -13,10 +13,16 @@ public class Player : Unit
 
     private bool _isActive = true;
     private bool _isDashing = false;
+
+    private int _id;
+
     public bool IsImmortal { get => (_isDashing || _isImmortal); }
     private bool _isImmortal;
     private bool _alphaDirection = false;
     private byte _blinkCounter = 0;
+
+    private float _scoreTimer;
+    private const float _scoreStep = 6F;
 
     private int _hpPrevAmount;
 
@@ -57,14 +63,14 @@ public class Player : Unit
     }
     private void SubscribeToInput()
     {
-        int id = Level.Players.Count - 1;
-        InputManager.OnUpButtonPressed[id] += () => SetDirection(new Vector2(_direction.x, 1));
-        InputManager.OnDownButtonPressed[id] += () => SetDirection(new Vector2(_direction.x, -1));
-        InputManager.OnRightButtonPressed[id] += () => SetDirection(new Vector2(1, _direction.y));
-        InputManager.OnLeftButtonPressed[id] += () => SetDirection(new Vector2(-1, _direction.y));
-        InputManager.OnSpaceButtonPressed[id] += () => StartDash();
+        _id = Level.Players.Count - 1;
+        InputManager.OnUpButtonPressed[_id] += () => SetDirection(new Vector2(_direction.x, 1));
+        InputManager.OnDownButtonPressed[_id] += () => SetDirection(new Vector2(_direction.x, -1));
+        InputManager.OnRightButtonPressed[_id] += () => SetDirection(new Vector2(1, _direction.y));
+        InputManager.OnLeftButtonPressed[_id] += () => SetDirection(new Vector2(-1, _direction.y));
+        InputManager.OnSpaceButtonPressed[_id] += () => StartDash();
 
-        ResetParameters("Player" + id);
+        ResetParameters("Player" + _id);
 
         Level.OnPlayerAdded -= SubscribeToInput;
     }
@@ -83,6 +89,23 @@ public class Player : Unit
             _isImmortal = true;
         }
 
+        if(HP > 0)
+        {
+            _scoreTimer += Time.deltaTime / 10;
+            if(_scoreTimer >= _scoreStep)
+            {
+                _scoreTimer = 0;
+                Level.AddScore(4, _id);
+            }
+        }
+        else 
+        {
+            Desubscribe();
+            LateDestroy();
+            Level.Players.Remove(this);
+            Level.CheckPlayers();
+        }
+
         if (_isActive)
         {
             if (_isDashing)
@@ -91,6 +114,14 @@ public class Player : Unit
                 Move(_direction);
         }
         ClampToBoundaries();
+    }
+    private void Desubscribe()
+    {
+        InputManager.OnUpButtonPressed[_id] -= () => SetDirection(new Vector2(_direction.x, 1));
+        InputManager.OnDownButtonPressed[_id] -= () => SetDirection(new Vector2(_direction.x, -1));
+        InputManager.OnRightButtonPressed[_id] -= () => SetDirection(new Vector2(1, _direction.y));
+        InputManager.OnLeftButtonPressed[_id] -= () => SetDirection(new Vector2(-1, _direction.y));
+        InputManager.OnSpaceButtonPressed[_id] -= () => StartDash();
     }
     private void SetDirectionActive(int id, bool state) => _directionState[id] = state;
     private void SetDirection(Vector2 direction)

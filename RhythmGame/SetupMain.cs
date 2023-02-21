@@ -1,4 +1,5 @@
 using GXPEngine;
+using System.Drawing;
 
 public partial class Setup : Game
 {
@@ -15,6 +16,7 @@ public partial class Setup : Game
             Settings.Volume = 0.5f;
             Settings.Fullscreen = false;
             SoundManager.Init();
+            EasyDraw.DefaultFont = new Font("OCR A Extended", 24); 
         }
         void subscriptions()
         {

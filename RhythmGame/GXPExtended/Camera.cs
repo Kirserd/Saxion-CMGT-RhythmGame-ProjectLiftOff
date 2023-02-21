@@ -66,7 +66,6 @@ public static class Camera
                 interpolatedPosition.x + ((float)(new Random()).NextDouble() - 0.5f) * SHAKE_POWER,
                 interpolatedPosition.y + ((float)(new Random()).NextDouble() - 0.5f) * -SHAKE_POWER
             );
-            Console.WriteLine((float)(new Random()).NextDouble() * SHAKE_POWER);
 
             _shakeCounter += Time.deltaTime / 10;
             if (_shakeCounter >= SHAKE_TIME)
