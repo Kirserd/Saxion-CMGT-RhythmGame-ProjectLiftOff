@@ -1,3 +1,5 @@
+RhythmBattleSmall
+10
 ChaoticAttack
 3
 ChaoticAttack2
@@ -14,6 +16,8 @@ ChaoticAttack
 1
 ChaoticAttack2
 1
+RhythmBattleSmall
+10
 LaserAttack
 3
 LaserAttackReverse

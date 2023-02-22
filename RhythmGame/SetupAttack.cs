@@ -31,6 +31,9 @@ public partial class Setup : Game
             case "SlowCrossAttack2":
                 SlowCrossAttack2(1);
                 break;
+            case "RhythmBattleSmall":
+                RhythmBattle(10,0.5f,10);
+                break;
             case "SCA1": SubCrossAttack(0.785398163f + Time.time / 1000);
                 break;
             case "SCA2": SubCrossAttack(0.55f + Time.time / 1000);
@@ -164,6 +167,16 @@ public partial class Setup : Game
                     bullet.rotation = angle;
                     angle += 90 * Mathf.PI / 180;
                 }
+            }
+        }
+        void RhythmBattle(float speed, float noteDelay, float timeToEnd)
+        {
+            if(!Level.TwoPlayers)
+                new RhythmBattle(speed, noteDelay, timeToEnd, 0);
+            else
+            {
+                new RhythmBattle(speed, noteDelay, timeToEnd, 0);
+                new RhythmBattle(speed, noteDelay, timeToEnd, 1);
             }
         }
         #endregion

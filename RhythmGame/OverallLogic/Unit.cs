@@ -1,7 +1,7 @@
 ﻿using GXPEngine;
 public class Unit : AnimationSprite
 {
-    protected int HP;
+    public int HP { get; protected set; }
     protected int MaxHp;
     public void ChangeHP(int amount)
     {

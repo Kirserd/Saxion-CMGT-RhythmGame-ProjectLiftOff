@@ -16,7 +16,7 @@ public class Note : Sprite
     #endregion
 
     #region Constructor
-    public Note(byte position, RhythmBattle rhythmBattle, float speed = 5f) : base("Note", true)
+    public Note(byte position, RhythmBattle rhythmBattle, float speed = 50f) : base("Note", true)
     {
         RhythmBattle = rhythmBattle;
         Position = position;

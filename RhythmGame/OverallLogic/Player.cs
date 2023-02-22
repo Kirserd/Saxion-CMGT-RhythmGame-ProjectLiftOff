@@ -2,6 +2,8 @@
 
 public class Player : Unit
 {
+    public RhythmBattle rhythmBattle;
+
     public const float DASH_POWER = 110;
     public const float DASH_QUICKNESS = 0.8f;
 
@@ -108,6 +110,7 @@ public class Player : Unit
         }
         else
         {
+            rhythmBattle.FinishBattle();
             Desubscribe();
             LateDestroy();
             Level.Players.Remove(this);
@@ -214,4 +217,5 @@ public class Player : Unit
 
         return interpolatedDashStep;
     }
+    public void SetActive(bool state) => _isActive = state;
 }
