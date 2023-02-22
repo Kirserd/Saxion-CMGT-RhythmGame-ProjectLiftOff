@@ -10,8 +10,8 @@ public class RhythmBattle : GameObject
     #region Fields and properties
     
     #region Constants
-    private const short NOTE_WIDTH = 145;
-    private const short BUTTON_WIDTH = 145;
+    private const short NOTE_WIDTH = 114;
+    private const short BUTTON_WIDTH = 114;
     private const float DIST_MULT = 1f;
     private readonly float SAFE_NOTE_BREACH = Game.main.height/ 2;
     #endregion
@@ -184,14 +184,11 @@ public class RhythmBattle : GameObject
         {
             #region Visual and GUI
             Sprite background = new Sprite("Battle_base");
-            background.SetOrigin(background.width / 2, 0);
+            background.SetOrigin(background.width / 2 + 18, 0);
             background.SetScaleXY(background.scaleX, background.scaleY);
-            background.SetXY((int)Game.main.width / 2, -25);
-
-            AddChild(background);
+            background.SetXY(Game.main.width / 2, -25);
 
             _noteParent = new Sprite("Empty");
-            AddChild(_noteParent);
             #endregion
 
             #region Collision Hit-Tests
@@ -200,7 +197,7 @@ public class RhythmBattle : GameObject
             Sprite thirdHitTest = new Sprite("Empty", true);
             NoteHitTests = new Sprite[3] { firstHitTest, secondHitTest, thirdHitTest };
 
-            int yPosCounter = 148;
+            int yPosCounter = 192;
             for (int i = 0; i < 3; i++)
             {
                 Sprite hitTest = NoteHitTests[i];
@@ -208,16 +205,12 @@ public class RhythmBattle : GameObject
                 hitTest.SetXY(0, Game.main.height - yPosCounter);
                 yPosCounter -= 32;
             }
-
-            AddChild(firstHitTest);
-            AddChild(secondHitTest);
-            AddChild(thirdHitTest);
             #endregion
 
             #region Buttons
             _1Button = new AnimationSprite("1Rhythm_Button", 2, 1);
-            _2Button = new AnimationSprite("2Rhythm_Button", 2, 1);
-            _3Button = new AnimationSprite("3Rhythm_Button", 2, 1);
+            _2Button = new AnimationSprite("3Rhythm_Button", 2, 1);
+            _3Button = new AnimationSprite("2Rhythm_Button", 2, 1);
             _4Button = new AnimationSprite("4Rhythm_Button", 2, 1);
 
             Sprite[] buttons = new Sprite[4] { _1Button, _2Button, _3Button, _4Button };
@@ -225,14 +218,37 @@ public class RhythmBattle : GameObject
             {
                 Sprite button = buttons[i + 2];
                 button.SetOrigin(button.width / 4, button.height / 2);
-                button.SetXY(Game.main.width / 2 + (BUTTON_WIDTH * i * DIST_MULT), Game.main.height);
+                button.SetXY(Game.main.width / 2 + (BUTTON_WIDTH * i * DIST_MULT), Game.main.height - 60);
                 button.SetScaleXY(button.scaleX / 2, button.scaleY);
             }
 
-            AddChild(_1Button);
-            AddChild(_2Button);
-            AddChild(_3Button);
-            AddChild(_4Button);
+
+            ValueDisplayer<int> combo = new ValueDisplayer<int>(() => Combo, 220, 720);
+            EasyDraw comboText = new EasyDraw(220, 720);
+            combo.SetXY(-325, 340);
+            comboText.SetXY(-325, 520);
+            combo.rotation = -90;
+            comboText.rotation = -90;
+            combo.TextSize(36);
+            comboText.TextSize(36);
+            comboText.Text("Combo: ");
+            combo.SetColor(0, 1, 0);
+            comboText.SetColor(0, 1, 0);
+
+            AddChildren(new GameObject[]
+            {
+                background,
+                _noteParent,
+                firstHitTest,
+                secondHitTest,
+                thirdHitTest,
+                _1Button,
+                _2Button,
+                _3Button,
+                _4Button,
+                comboText,
+                combo
+            }) ;
             #endregion
         }
     }
@@ -289,7 +305,7 @@ public class RhythmBattle : GameObject
                 TryHitNote(2);
             }
             if (Input.GetKeyUp(Key.S))
-                _1Button.currentFrame = 0;
+                _3Button.currentFrame = 0;
 
             if (Input.GetKeyDown(Key.D))
             {
@@ -305,7 +321,7 @@ public class RhythmBattle : GameObject
         byte noteColumn = (byte)new Random().Next(0,4);
         Note note = new Note(noteColumn, this, Speed);
         note.SetOrigin(note.width / 2, note.height / 2);
-        note.SetXY(Game.main.width / 2 + (NOTE_WIDTH * (noteColumn - 2) * DIST_MULT) + 3, - 60);
+        note.SetXY(Game.main.width / 2 + (NOTE_WIDTH * (noteColumn - 2) * DIST_MULT) + 38, - 60);
         NoteColumns[noteColumn].Add(note);
         _noteParent.AddChild(note);
     }
@@ -347,7 +363,7 @@ public class RhythmBattle : GameObject
         }
         NoteColumns[column].RemoveAt(0);
 
-        Level.AddScore(result * 4, _id);
+        Level.AddScore(result * 4 + Combo, _id);
     }
     public void DealDamage() => Level.Players[_id].ChangeHP(Level.Players[_id].HP > 0? -1 : 0);
 

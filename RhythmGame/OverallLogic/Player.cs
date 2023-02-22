@@ -110,7 +110,8 @@ public class Player : Unit
         }
         else
         {
-            rhythmBattle.FinishBattle();
+            if(rhythmBattle != null)
+                rhythmBattle.FinishBattle();
             Desubscribe();
             LateDestroy();
             Level.Players.Remove(this);
