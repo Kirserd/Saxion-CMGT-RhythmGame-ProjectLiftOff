@@ -6,6 +6,7 @@ public partial class Setup : Game
     {
         #region Switch by key
         Level level = null;
+        SoundManager.StopAll();
 
         switch (key)
         {
@@ -22,7 +23,7 @@ public partial class Setup : Game
         void ExampleLevel()
         {
             Level.ClearScores();
-            SoundManager.PlayOnce("Level", true);
+            SoundManager.Play("Level", true);
             level = new Level("Level");
             Sprite background;
             Enemy enemy;
@@ -42,7 +43,7 @@ public partial class Setup : Game
                 new Player
                 (
                     position: new Vector2(width / 3, height * 2 / 3),
-                    hp: 10,
+                    hp: 5,
                     ms: new Stat(0.4f)
                 ),
             }) ;

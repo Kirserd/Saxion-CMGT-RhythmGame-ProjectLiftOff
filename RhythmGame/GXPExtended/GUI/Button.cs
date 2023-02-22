@@ -17,8 +17,8 @@ public class Button : Sprite
     public bool IsActive { get; private set; } = true;
 
     private Action _action;
-    public const int NormalColor = 0xFFFFFF;
-    public const int HoveringColor = 0xA5A5A5;
+    public const int NormalColor = 0x757575;
+    public const int HoveringColor = 0xFFFFFF;
     public const int ClickedColor = 0x757575;
     private int[] _colors = new int[3] { NormalColor, HoveringColor, ClickedColor };
     private ButtonState _state = ButtonState.Normal;
@@ -40,10 +40,7 @@ public class Button : Sprite
     private void Update()
     {
         if (IsActive)
-        {
             RefreshColor();
-            ListenMouseInputAndManageStates();
-        }
     }
     public void SetState(bool state) => IsActive = state;
     private void RefreshColor() => color = (uint) _colors[(int)_state];
@@ -62,7 +59,6 @@ public class Button : Sprite
                 if (_state == ButtonState.Normal)
                 {
                     _state = ButtonState.Hovering;
-                    SoundManager.PlayOnce("MenuSelect");
                 }
             }
             else if (_state == ButtonState.Hovering)
@@ -75,6 +71,10 @@ public class Button : Sprite
                 _state = ButtonState.Hovering;
         }
     }
+    public void SetNormal() => _state = ButtonState.Normal;
+    public void SetHovering() => _state = ButtonState.Hovering;
+    public void SetClicked() => _state = ButtonState.Clicked;
+
     public void Invoke() 
     {
         if (_action != null)

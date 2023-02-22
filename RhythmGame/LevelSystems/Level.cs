@@ -18,8 +18,6 @@ public class Level : Sprite
     {
         if(Players.Count == 0)
             LevelManager.LateLoadLevel("MenuLevel");
-
-        SoundManager.StopAll();
     }
     public override void AddChild(GameObject child)
     {
