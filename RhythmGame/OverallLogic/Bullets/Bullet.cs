@@ -8,10 +8,11 @@ public class Bullet : AnimationSprite
         ResetParameters
         (
             "StandardBullet",
-            cols: 1,
+            cols: 4,
             rows: 1,
             addCollider: false
         );
+        SetScaleXY(1f / 4f, 1);
         SetOrigin(width / 2, height / 2);
         CollisionRadius = 30f;
         Speed = 3f;

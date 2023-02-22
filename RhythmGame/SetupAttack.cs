@@ -147,14 +147,12 @@ public partial class Setup : Game
         {
             if (!isSlow)
             {
-                string[] filenames = new string[4] { "FastBullet_down", "FastBullet_right", "FastBullet_up", "FastBullet_left" };
                 for (int i = 0; i < 4; i++)
                 {
                     FastBullet bullet = ObjectPool<FastBullet>.GetInstance(typeof(FastBullet)).GetObject(owner);
-                    bullet.ResetParameters(filenames[i]);
                     bullet.SetXY(owner.x, owner.y);
                     bullet.rotation = angle;
-                    angle += 90 * Mathf.PI / 180;
+                    angle += 90;
                 }
             }
             else
