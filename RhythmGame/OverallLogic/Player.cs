@@ -14,6 +14,13 @@ public class Player : Unit
     private bool _isActive = true;
     private bool _isDashing = false;
 
+    private bool _isOnCD = false;
+    private float _dashCDCounter = 0;
+    private const float DASH_COOLDOWN = 1f;
+
+    private float _dashTimer = 0;
+    private const float DASH_CUTOFF = 1f;
+
     private int _id;
 
     public bool IsImmortal { get => (_isDashing || _isImmortal); }
@@ -22,7 +29,7 @@ public class Player : Unit
     private byte _blinkCounter = 0;
 
     private float _scoreTimer;
-    private const float _scoreStep = 6F;
+    private const float _scoreStep = 6f;
 
     private int _hpPrevAmount;
 
@@ -115,6 +122,16 @@ public class Player : Unit
                 Move(_direction);
         }
         ClampToBoundaries();
+
+        if (_isOnCD)
+        {
+            _dashCDCounter += Time.deltaTime;
+            if (_dashCDCounter >= DASH_COOLDOWN)
+            {
+                _dashCDCounter = 0;
+                _isOnCD = false;
+            }
+        }
     }
     private void Desubscribe()
     {
@@ -154,6 +171,9 @@ public class Player : Unit
     }
     private void StartDash()
     {
+        if (_isOnCD)
+            return;
+
         SoundManager.PlayOnce("Dash");
         _isDashing = true;
         _dashDestination = new Vector2
@@ -176,10 +196,22 @@ public class Player : Unit
             DASH_QUICKNESS
         );
         if (Vector2.Distance(interpolatedDashStep, _dashDestination) < 1)
+            StopDashing();
+        
+        _dashTimer += Time.deltaTime;
+        if (_dashTimer >= DASH_CUTOFF)
+        {
+            _dashTimer = 0;
+            StopDashing();
+        }
+
+        void StopDashing()
         {
             _isDashing = false;
+            _isOnCD = true;
             _dashDestination = Vector2.zero;
         }
+
         return interpolatedDashStep;
     }
 }

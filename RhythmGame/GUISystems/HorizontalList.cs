@@ -10,8 +10,9 @@ public class HorizontalList : Sprite
         get => _chosenElement;
         protected set
         {
-            if (IsActive) _chosenElement = value;
+            if (IsActive && value >= 0 && value < _buttons.Count  ) _chosenElement = value;
             RefreshPositions();
+            RefreshColors();
         }
     }
     public float DistanceBetweenElements { get; protected set; } = 256;
@@ -27,7 +28,6 @@ public class HorizontalList : Sprite
         InputManager.OnLeftButtonPressed[0] += () => MoveInList(-1);
         InputManager.OnRightButtonPressed[0] += () => MoveInList(1);
         InputManager.OnSpaceButtonPressed[0] += ActivateChosen;
-        BeforeDestroy += OnDestroy;
     }
     public void AddButton(Button button)
     {
@@ -63,6 +63,14 @@ public class HorizontalList : Sprite
             }
         }
     }
+    private void RefreshColors()
+    {
+        for (int i = 0; i < _buttons.Count; i++)
+        {
+            if (i == ChosenElement) _buttons[i].SetHovering();
+            else _buttons[i].SetNormal();
+        }
+    }
     private void Update() => InterpolateToDestinations();
     private void InterpolateToDestinations()
     {
@@ -78,12 +86,11 @@ public class HorizontalList : Sprite
             SoundManager.PlayOnce("Click");
         }
     }
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
         InputManager.OnLeftButtonPressed[0] -= () => MoveInList(-1);
         InputManager.OnRightButtonPressed[0] -= () => MoveInList(1);
         InputManager.OnSpaceButtonPressed[0] -= ActivateChosen;
-        BeforeDestroy -= OnDestroy;
         foreach (Button button in _buttons)
             button.SetState(false);
     }

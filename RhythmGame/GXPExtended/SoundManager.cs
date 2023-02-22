@@ -51,6 +51,7 @@ public static class SoundManager
     {
         if (_loopingSoundChannels.ContainsKey(key))
         {
+            _loopingSoundChannels[key].Volume = 0;
             _loopingSoundChannels[key].Stop();
             _loopingSoundChannels.Remove(key);
         }
@@ -58,7 +59,12 @@ public static class SoundManager
 
     public static void StopAll()
     {
-        foreach (string soundChannel in _loopingSoundChannels.Keys) 
+        List<string> keysToRemove = new List<string>();
+
+        foreach (string soundChannel in _loopingSoundChannels.Keys)
+            keysToRemove.Add(soundChannel);
+
+        foreach (string soundChannel in keysToRemove)
             StopSound(soundChannel);
     }
 
