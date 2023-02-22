@@ -8,15 +8,18 @@ public class Bullet : AnimationSprite
         ResetParameters
         (
             "StandardBullet",
-            cols: 1,
+            cols: 4,
             rows: 1,
             addCollider: false
         );
+        SetScaleXY(1f / 4f, 1);
         SetOrigin(width / 2, height / 2);
         CollisionRadius = 30f;
         Speed = 3f;
         Damage = 1;
+        SetCycle(0, 3);
     }
+
     protected virtual void Move()
     {
         x += Speed * Mathf.Sin(rotation);
@@ -76,7 +79,11 @@ public class Bullet : AnimationSprite
         Move();
         CheckBoundaries();
     }
-    protected virtual void Update() => CheckCollisions();
+    protected virtual void Update()
+    {
+        CheckCollisions();
+        Animate(0.07f);
+    }
     protected void CheckBoundaries()
     {
         float distance = Vector2.Distance

@@ -12,10 +12,11 @@ public class ChaoticBullet : Bullet
         ResetParameters
         (
             "HomingBullet",
-            cols: 1,
+            cols: 4,
             rows: 1,
             addCollider: false
         );
+        SetScaleXY(1f / 4f, 1);
         CollisionRadius = 30f;
         Speed = 4f;
         Damage = 1;

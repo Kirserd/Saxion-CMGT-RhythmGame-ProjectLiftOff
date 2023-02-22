@@ -6,10 +6,11 @@
         ResetParameters
         (
             "LaserBullet",
-            cols: 10,
+            cols: 4,
             rows: 1,
             addCollider: true
         );
+        SetScaleXY(1f / 4f, 1);
         Speed = 4f;
         Damage = 1;
         SetOrigin(width / 2, height / 2);
@@ -24,7 +25,7 @@
     protected override void Update()
     {
         base.Update();
-            AnimateFixed();
+            Animate(0.05f);
     }
     protected override void ReturnToPool() => ObjectPool<LaserBullet>.GetInstance(typeof(LaserBullet)).ReturnObject(this);
 }
