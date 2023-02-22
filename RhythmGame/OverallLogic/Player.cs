@@ -141,7 +141,7 @@ public class Player : Unit
         InputManager.OnLeftButtonPressed[_id] -= () => SetDirection(new Vector2(-1, _direction.y));
         InputManager.OnSpaceButtonPressed[_id] -= () => StartDash();
     }
-    private void SetDirectionActive(int id, bool state) => _directionState[id] = state;
+    public void SetDirectionActive(int id, bool state) => _directionState[id] = state;
     private void SetDirection(Vector2 direction)
     {
         if (!_directionState[0]) direction = new Vector2(_direction.x, direction.y);
