@@ -64,7 +64,7 @@ public partial class Setup : Game
         void CircleAttack()
         {
             float angle = 0;
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < 11; i++)
             {
                 Bullet bullet = ObjectPool<Bullet>.GetInstance(typeof(Bullet)).GetObject(owner);
 

@@ -19,6 +19,7 @@ public class Bullet : AnimationSprite
         Damage = 1;
         SetCycle(0, 3);
     }
+
     protected virtual void Move()
     {
         x += Speed * Mathf.Sin(rotation);
@@ -78,7 +79,11 @@ public class Bullet : AnimationSprite
         Move();
         CheckBoundaries();
     }
-    protected virtual void Update() => CheckCollisions();
+    protected virtual void Update()
+    {
+        CheckCollisions();
+        Animate(0.07f);
+    }
     protected void CheckBoundaries()
     {
         float distance = Vector2.Distance
