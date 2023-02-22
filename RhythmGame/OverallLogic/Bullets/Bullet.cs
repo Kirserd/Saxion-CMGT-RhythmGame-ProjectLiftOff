@@ -17,6 +17,7 @@ public class Bullet : AnimationSprite
         CollisionRadius = 30f;
         Speed = 3f;
         Damage = 1;
+        SetCycle(0, 3);
     }
     protected virtual void Move()
     {
