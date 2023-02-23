@@ -61,6 +61,8 @@ public partial class Setup : Game
                 break;
             case "SCA6s": SubCrossAttack(-0.55f + Time.time / 1000, true);
                 break;
+            case "AttackStage": AttackStage();
+                break;
             default:
                 break;
         }
@@ -174,13 +176,18 @@ public partial class Setup : Game
         }
         void RhythmBattle(float speed, float noteDelay, float timeToEnd)
         {
-            if(!Level.TwoPlayers)
+            owner.AddEventThere(new EventData("AttackStage", 3f));
+            if (!Level.TwoPlayers)
                 new RhythmBattle(speed, noteDelay, timeToEnd, 0);
             else
             {
                 new RhythmBattle(speed, noteDelay, timeToEnd, 0);
                 new RhythmBattle(speed, noteDelay, timeToEnd, 1);
             }
+        }
+        void AttackStage()
+        {
+
         }
         #endregion
     }
