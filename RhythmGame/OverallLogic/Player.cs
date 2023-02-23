@@ -1,4 +1,5 @@
 ﻿using GXPEngine;
+using System.Reflection;
 
 public class Player : Unit
 {
@@ -18,6 +19,7 @@ public class Player : Unit
 
     private bool _isActive = true;
     private bool _isDashing = false;
+    private bool _isDashingImmortality = false;
 
     private bool _isOnCD = false;
     private float _dashCDCounter = 0;
@@ -47,29 +49,30 @@ public class Player : Unit
         Level.OnPlayerAdded += SubscribeToInput;
         SetOrigin(width / 2, height / 2);
     }
-    private void Immortality()
+    private void Immortality(int blinkCount)
     {
-        if (alpha >= 0 && !_alphaDirection)
-        {
-            alpha -= Time.deltaTime / 10;
-            if (alpha <= 0)
+            if (alpha >= 0 && !_alphaDirection)
             {
-                _alphaDirection = true;
-                _blinkCounter++;
+                alpha -= Time.deltaTime / 10;
+                if (alpha <= 0)
+                {
+                    _alphaDirection = true;
+                    _blinkCounter++;
+                }
             }
-        }
-        else if (alpha <= 1 && _alphaDirection)
-        {
-            alpha += Time.deltaTime / 10;
-            if (alpha >= 1)
+            else if (alpha <= 1 && _alphaDirection)
             {
-                _alphaDirection = false;
-                _blinkCounter++;
+                alpha += Time.deltaTime / 10;
+                if (alpha >= 1)
+                {
+                    _alphaDirection = false;
+                    _blinkCounter++;
+                }
             }
-        }
-        if (_blinkCounter >= 24)
+        if (_blinkCounter >= blinkCount)
         {
             _isImmortal = false;
+            _isDashingImmortality = false;
             _blinkCounter = 0;
             _alphaDirection = false;
             alpha = 1;
@@ -94,7 +97,12 @@ public class Player : Unit
             return;
 
         if (_isImmortal && RhythmBattle is null)
-            Immortality();
+        {
+            if (_isDashingImmortality)
+                Immortality(12);
+            else
+                Immortality(24);
+        }
 
         if (_hpPrevAmount > HP)
         {
@@ -193,6 +201,9 @@ public class Player : Unit
              x + DASH_POWER * _lastDirection.x,
              y + DASH_POWER * _lastDirection.y
         );
+
+        _isImmortal = true;
+        _isDashingImmortality = true;
     }
     private void Dash()
     {
