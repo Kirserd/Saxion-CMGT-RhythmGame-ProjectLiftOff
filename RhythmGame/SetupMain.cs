@@ -8,7 +8,7 @@ public partial class Setup : Game
     public static Sprite postProcessing;
     private void Update() => OnGameUpdate.Invoke();
     private static void Main() => new Setup();
-    public Setup() : base(1280, 720, false, pPixelArt: true, pRealWidth: Settings.Screen.Width, pRealHeight: Settings.Screen.Height)
+    public Setup() : base(1280, 720, true, pPixelArt: true, pRealWidth: Settings.Screen.Width, pRealHeight: Settings.Screen.Height)
     {
         void settings()
         {

@@ -5,7 +5,7 @@ public class Player : Unit
     public delegate void OnDamageTakenHandler();
     public OnDamageTakenHandler OnDamageTaken;
 
-    public RhythmBattle rhythmBattle;
+    public RhythmBattle RhythmBattle;
 
     public const float DASH_POWER = 110;
     public const float DASH_QUICKNESS = 0.8f;
@@ -93,7 +93,7 @@ public class Player : Unit
         if (!ValidateUpdate())
             return;
 
-        if (_isImmortal)
+        if (_isImmortal && RhythmBattle is null)
             Immortality();
 
         if (_hpPrevAmount > HP)
@@ -118,8 +118,8 @@ public class Player : Unit
         }
         else
         {
-            if(rhythmBattle != null)
-                rhythmBattle.FinishBattle();
+            if(RhythmBattle != null)
+                RhythmBattle.FinishBattle();
             Desubscribe();
             LateDestroy();
             IsDead = true;

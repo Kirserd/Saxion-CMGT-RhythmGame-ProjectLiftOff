@@ -66,7 +66,7 @@ public class RhythmBattle : GameObject
 
         SetupObjects();
         Game.main.AddChild(this);
-        Level.Players[_id].rhythmBattle = this;
+        Level.Players[_id].RhythmBattle = this;
         _started = true;
     }
     private void SetupObjects()
@@ -377,7 +377,7 @@ public class RhythmBattle : GameObject
     {
         if (Level.Players.Count > _id && Level.Players[_id] != null)
         {
-            Level.Players[_id].rhythmBattle = null;
+            Level.Players[_id].RhythmBattle = null;
             Level.Players[_id].SetActive(true);
             System.Console.WriteLine(_id + " is true");
         }

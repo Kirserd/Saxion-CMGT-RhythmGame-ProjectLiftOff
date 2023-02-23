@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GXPExtended\GUI\HPBar.cs" />
+    <Compile Include="OverallLogic\ImpulseParticle.cs" />
     <Compile Include="OverallLogic\AutoAnimationSprite.cs" />
     <Compile Include="OverallLogic\RhythmBattle.cs" />
     <Compile Include="GUISystems\HorizontalList.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="OverallLogic\Stat.cs" />
     <Compile Include="OverallLogic\Unit.cs" />
     <Compile Include="OverallLogic\Bullets\Bullet.cs" />
+    <Compile Include="OverallLogic\Particle.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SetupAttack.cs" />
     <Compile Include="SetupGUI.cs" />

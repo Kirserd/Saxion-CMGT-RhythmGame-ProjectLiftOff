@@ -56,7 +56,8 @@ public class EventSequence : GameObject
         return events;
     }
     public void AddEventThere(EventData eventData) => _events.Insert(1, eventData);
-    
+    public void AddEventAfter(EventData eventData) => _events.Insert(2, eventData);
+
     private void Update()
     {
         if (_events.Count > 0)

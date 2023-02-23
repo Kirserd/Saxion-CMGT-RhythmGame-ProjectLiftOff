@@ -1,4 +1,5 @@
 using GXPEngine;
+using System.Windows.Forms;
 
 public partial class Setup : Game
 {
@@ -31,10 +32,16 @@ public partial class Setup : Game
             case "SlowCrossAttack2":
                 SlowCrossAttack2(1);
                 break;
+            case "RhythmBattle":
+                StartRhythmBattle("RB", 20f);
+                break;
             case "RhythmBattleSmall":
+                StartRhythmBattle("RBS", 15f);
+                break;
+            case "RBS":
                 RhythmBattle(15, 0.5f, 10);
                 break;
-            case "RhythmBattle":
+            case "RB":
                 RhythmBattle(20, 0.4f, 15);
                 break;
             case "SCA1": SubCrossAttack(0.785398163f + Time.time / 1000);
@@ -71,7 +78,7 @@ public partial class Setup : Game
         #region Attack Setup
         void CircleAttack()
         {
-            float angle = 0;
+            float angle = Time.time;
             for (int i = 0; i < 11; i++)
             {
                 Bullet bullet = ObjectPool<Bullet>.GetInstance(typeof(Bullet)).GetObject(owner);
@@ -101,7 +108,7 @@ public partial class Setup : Game
         void LaserAttackReverse()
         {
             LaserBullet bullet = ObjectPool<LaserBullet>.GetInstance(typeof(LaserBullet)).GetObject(owner);
-            bullet.SetXY(1240, height/2);
+            bullet.SetXY(1240, height / 2);
             bullet.rotation = -90 * Mathf.PI / 180;
         }
         void CrossAttack(int longness)
@@ -174,9 +181,13 @@ public partial class Setup : Game
                 }
             }
         }
-        void RhythmBattle(float speed, float noteDelay, float timeToEnd)
+        void StartRhythmBattle(string name, float time)
         {
             owner.AddEventThere(new EventData("AttackStage", 3f));
+            owner.AddEventAfter(new EventData(name, time));
+        }
+        void RhythmBattle(float speed, float noteDelay, float timeToEnd)
+        {
             if (!Level.TwoPlayers)
                 new RhythmBattle(speed, noteDelay, timeToEnd, 0);
             else
@@ -187,7 +198,10 @@ public partial class Setup : Game
         }
         void AttackStage()
         {
-
+            ImpulseParticle attackStage = new ImpulseParticle("AttackStage", 3f);
+            attackStage.SetXY(width / 2, height / 2);
+            attackStage.SetOrigin(attackStage.width / 2, attackStage.height / 2);
+            AddChild(attackStage);
         }
         #endregion
     }

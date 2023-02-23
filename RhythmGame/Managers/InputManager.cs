@@ -32,7 +32,7 @@ public static class InputManager
         if (Input.GetKey(Key.UP) && OnDownButtonPressed[1] != null) OnDownButtonPressed[1].Invoke();
         if (Input.GetKey(Key.LEFT) && OnLeftButtonPressed[1] != null) OnLeftButtonPressed[1].Invoke();
         if (Input.GetKey(Key.RIGHT) && OnRightButtonPressed[1] != null) OnRightButtonPressed[1].Invoke();
-        if (Input.GetKeyDown(Key.NUMPAD_INSERT) && OnSpaceButtonPressed[1] != null) OnSpaceButtonPressed[1].Invoke();
+        if (Input.GetKeyDown(Key.ZERO) && OnSpaceButtonPressed[1] != null) OnSpaceButtonPressed[1].Invoke();
         #endregion
     }
 

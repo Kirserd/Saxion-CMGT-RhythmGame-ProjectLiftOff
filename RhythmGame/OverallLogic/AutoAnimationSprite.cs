@@ -9,5 +9,5 @@ public class AutoAnimationSprite : AnimationSprite
         _deltaFrameTime = deltaFrameTime;
         SetScaleXY(scaleX / cols, scaleY / rows);
     }
-    private void Update() => Animate(_deltaFrameTime);
+    private void FixedUpdate() => Animate(_deltaFrameTime);
 }
