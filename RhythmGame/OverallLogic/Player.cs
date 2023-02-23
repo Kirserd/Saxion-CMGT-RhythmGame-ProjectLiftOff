@@ -196,7 +196,7 @@ public class Player : Unit
                 Animate(0.19f);
             }
         }
-        _animDirection = Vector2.zero;
+        _animDirection *= new Vector2(0.5f, 0.5f);
     }
     private void Desubscribe()
     {
