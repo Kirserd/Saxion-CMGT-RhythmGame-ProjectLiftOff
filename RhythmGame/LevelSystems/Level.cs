@@ -16,8 +16,12 @@ public class Level : Sprite
 
     public static void CheckPlayers()
     {
-        if(Players.Count == 0)
-            LevelManager.LateLoadLevel("MenuLevel");
+        foreach (Player player in Players)
+        {
+            if(!player.IsDead)
+                return;
+        }
+        LevelManager.LateLoadLevel("MenuLevel");
     }
     public override void AddChild(GameObject child)
     {
@@ -37,12 +41,13 @@ public class Level : Sprite
         base.AddChild(child);
     }
     public static void AddScore(int amount, int id) => Score[id] += amount;
-    public static void ClearScores() 
+    public static void ResetArraysAndScore() 
     {
         for (int i = 0; i < Score.Length; i++)
-        {
             Score[i] = 0;
-        }
+
+        Players.Clear();
+        Units.Clear();
     }
     public override object Clone() => MemberwiseClone();
 }

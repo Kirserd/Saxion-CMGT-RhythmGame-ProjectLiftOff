@@ -17,9 +17,9 @@ public class Button : Sprite
     public bool IsActive { get; private set; } = true;
 
     private Action _action;
-    public const int NormalColor = 0x757575;
+    public const int NormalColor = 0x555555;
     public const int HoveringColor = 0xFFFFFF;
-    public const int ClickedColor = 0x757575;
+    public const int ClickedColor = 0x77bb77;
     private int[] _colors = new int[3] { NormalColor, HoveringColor, ClickedColor };
     private ButtonState _state = ButtonState.Normal;
 
@@ -77,6 +77,7 @@ public class Button : Sprite
 
     public void Invoke() 
     {
+        SetClicked();
         if (_action != null)
         {
             SoundManager.PlayOnce("MenuClick");

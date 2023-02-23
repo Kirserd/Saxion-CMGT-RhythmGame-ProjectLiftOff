@@ -48,7 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RhythmBattle.cs" />
+    <Compile Include="GXPExtended\GUI\HPBar.cs" />
+    <Compile Include="OverallLogic\AutoAnimationSprite.cs" />
+    <Compile Include="OverallLogic\RhythmBattle.cs" />
     <Compile Include="GUISystems\HorizontalList.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
@@ -70,7 +72,7 @@
     <Compile Include="GXPExtended\Core\Vector2.cs" />
     <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Managers\EventSequence.cs" />
-    <Compile Include="Note.cs" />
+    <Compile Include="OverallLogic\Note.cs" />
     <Compile Include="OverallLogic\Enemy.cs" />
     <Compile Include="OverallLogic\Bullets\FastBullet.cs" />
     <Compile Include="OverallLogic\Bullets\ChaoticBullet.cs" />

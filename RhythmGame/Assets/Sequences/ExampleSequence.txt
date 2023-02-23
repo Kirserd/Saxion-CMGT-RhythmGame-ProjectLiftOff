@@ -1,9 +1,5 @@
-RhythmBattleSmall
-10
 ChaoticAttack
 3
-RhythmBattle
-15
 ChaoticAttack2
 3
 ChaoticAttack
@@ -59,8 +55,8 @@ SlowCircleAttack
 SlowCrossAttack
 3
 SlowCrossAttack2
-3
-HomingAttack
-3
-HomingAttack2
-3
+10
+RhythmBattleSmall
+14
+RhythmBattle
+15

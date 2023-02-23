@@ -1,5 +1,4 @@
 using GXPEngine;
-using System;
 
 public partial class Setup : Game
 {
@@ -24,13 +23,17 @@ public partial class Setup : Game
         {
             gui = new GUI("Menu");
             Sprite title = new Sprite("Title");
+            AutoAnimationSprite titleMiddle = new AutoAnimationSprite("TitleMiddle", 8, 2, 0.2f);
             title.SetOrigin(title.width / 2, title.height / 2);
-            title.SetXY(width / 2, height * 1 / 5);
+            title.SetXY(width / 2, height / 5);
+            titleMiddle.SetOrigin(titleMiddle.width / 2, titleMiddle.height);
+            titleMiddle.SetXY(width / 2 - 140, height / 6);
             HorizontalList horizontalList = new HorizontalList();
-            horizontalList.SetXY(width / 2, height / 4);
+            horizontalList.SetXY(width / 2, height / 2.6f);
             gui.AddChildren( new GameObject[]
             {
                 title,
+                titleMiddle,
                 horizontalList
             });
             horizontalList.AddButtons(new Button[]
@@ -47,13 +50,17 @@ public partial class Setup : Game
             gui = new GUI("Level");
             ValueDisplayer<int> score1 = new ValueDisplayer<int>(() => Level.Score[0], 640, 72);
             EasyDraw scoreText1 = new EasyDraw(640, 72);
+            HPBar hpBar1 = new HPBar(0);
             gui.AddChildren(new GameObject[]
             {
                 score1,
-                scoreText1
+                scoreText1,
+                hpBar1,
             });
-            score1.SetXY( -16, height - 140);
-            scoreText1.SetXY( -16, height - 20);
+            hpBar1.SetXY(0, height);
+            hpBar1.SetOrigin(0, hpBar1.height);
+            score1.SetXY( -42, height - 154);
+            scoreText1.SetXY( -42, height - 34);
             score1.rotation = 270;
             scoreText1.rotation = 270;
             scoreText1.Text("Score: ");
@@ -63,13 +70,18 @@ public partial class Setup : Game
             {
                 ValueDisplayer<int> score2 = new ValueDisplayer<int>(() => Level.Score[1], 640, 72);
                 EasyDraw scoreText2 = new EasyDraw(640, 72);
+                HPBar hpBar2 = new HPBar(1);
                 gui.AddChildren(new GameObject[]
                 {
                     score2,
-                    scoreText2
+                    scoreText2,
+                    hpBar2,
                 });
-                score2.SetXY(width - 90, height - 140);
-                scoreText2.SetXY(width - 90, height - 20);
+                hpBar2.SetXY(940, height);
+                hpBar2.SetOrigin(0, hpBar2.height);
+                hpBar2.Mirror(true, false);
+                score2.SetXY(width - 68, height - 154);
+                scoreText2.SetXY(width - 68, height - 34);
                 score2.rotation = 270;
                 scoreText2.rotation = 270;
                 scoreText2.Text("Score: ");

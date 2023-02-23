@@ -22,7 +22,7 @@ public partial class Setup : Game
         #region Level Setups
         void ExampleLevel()
         {
-            Level.ClearScores();
+            Level.ResetArraysAndScore();
             SoundManager.Play("Level", true);
             level = new Level("Level");
             Sprite background;
@@ -43,7 +43,7 @@ public partial class Setup : Game
                 new Player
                 (
                     position: new Vector2(width / 3, height * 2 / 3),
-                    hp: 5,
+                    hp: 8,
                     ms: new Stat(0.4f)
                 ),
             }) ;
@@ -58,12 +58,12 @@ public partial class Setup : Game
             #region Second player
             if (twoPlayers)
             {
-                level.LateAddChild
+                level.AddChild
                 (
                     new Player
                     (
                         position: new Vector2(width * 2 / 3, height * 2 / 3),
-                        hp: 10,
+                        hp: 8,
                         ms: new Stat(0.4f)
                     )
                 );
