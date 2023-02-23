@@ -33,16 +33,16 @@ public partial class Setup : Game
                 SlowCrossAttack2(1);
                 break;
             case "RhythmBattle":
-                StartRhythmBattle("RB", 20f);
+                StartRhythmBattle("RB", 30f);
                 break;
             case "RhythmBattleSmall":
-                StartRhythmBattle("RBS", 15f);
+                StartRhythmBattle("RBS", 25f);
                 break;
             case "RBS":
-                RhythmBattle(15, 0.5f, 10);
+                RhythmBattle(15, 0.4f, 20);
                 break;
             case "RB":
-                RhythmBattle(20, 0.4f, 15);
+                RhythmBattle(22, 0.34f, 25);
                 break;
             case "SCA1": SubCrossAttack(0.785398163f + Time.time / 1000);
                 break;
