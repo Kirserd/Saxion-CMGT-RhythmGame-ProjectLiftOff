@@ -7,8 +7,8 @@
     public void AddEventAfter(EventData eventData) => _eventSequence.AddEventAfter(eventData);
     public override void OnEventsFinished()
     {
-        //TODO Finish level instead of Destroy().
-        Destroy();
+        Level.FinishLevel();
+        LateDestroy();
     }
     protected override void OnDestroy()
     {
