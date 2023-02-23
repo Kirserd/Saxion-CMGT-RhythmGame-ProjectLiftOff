@@ -1,5 +1,7 @@
 ﻿using GXPEngine;
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 public class HorizontalList : Sprite
 {
@@ -93,5 +95,56 @@ public class HorizontalList : Sprite
         InputManager.OnSpaceButtonPressed[0] -= ActivateChosen;
         foreach (Button button in _buttons)
             button.SetState(false);
+    }
+}
+
+public class ScoreList : Sprite
+{
+    public float DistanceBetweenElements { get; protected set; } = 70;
+
+    private List<ValueDisplayer<string>> _scores = new List<ValueDisplayer<string>>();
+    private float[] _destinations;
+
+    public ScoreList() : base("Empty", false, false)
+    {
+        ReadFromFile();
+        RefreshPositions();
+    }
+    private void ReadFromFile()
+    {
+        string fullPath = Settings.AssetsPath + "Scores.txt";
+        List<int> scores = new List<int>();
+        using (StreamReader reader = new StreamReader(fullPath))
+        {
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                ValueDisplayer<string> value = new ValueDisplayer<string>(() => line, 720, 64);
+                value.SetOrigin(value.width / 2, value.height / 2);
+                _scores.Add(value);
+                AddChild(value);
+            }
+        }
+    }
+    private void RefreshPositions()
+    {
+        _destinations = new float[_scores.Count];
+        for (int i = 0; i < _scores.Count; i++)
+        {
+            float newDestination = i * DistanceBetweenElements;
+            if (_destinations[i] != newDestination)
+            {
+                _destinations[i] = newDestination;
+            }
+        }
+    }
+    private void Update() => InterpolateToDestinations();
+    private void InterpolateToDestinations()
+    {
+        for (int i = 0; i < _scores.Count; i++)
+        {
+            if (Mathf.Abs(_scores[i].y - _destinations[i]) > 1)
+                _scores[i].y = Mathf.Lerp(_scores[i].y, _destinations[i], 0.4f);
+        }
     }
 }
