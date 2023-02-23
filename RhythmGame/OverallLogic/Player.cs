@@ -2,6 +2,9 @@
 
 public class Player : Unit
 {
+    public delegate void OnDamageTakenHandler();
+    public OnDamageTakenHandler OnDamageTaken;
+
     public RhythmBattle rhythmBattle;
 
     public const float DASH_POWER = 110;
@@ -34,6 +37,8 @@ public class Player : Unit
     private const float _scoreStep = 6f;
 
     private int _hpPrevAmount;
+
+    public bool IsDead { get; private set; } = false;
 
     public Player(Vector2 position, int hp, Stat ms) : base(position, hp, ms, "Empty", 1, 1)
     {
@@ -84,7 +89,7 @@ public class Player : Unit
         Level.OnPlayerAdded -= SubscribeToInput;
     }
     private void Update()
-    {
+    { 
         if (!ValidateUpdate())
             return;
 
@@ -97,6 +102,9 @@ public class Player : Unit
             _hpPrevAmount = HP;
             Camera.Shake();
             _isImmortal = true;
+
+            if (OnDamageTaken != null)
+                OnDamageTaken.Invoke();
         }
 
         if (HP > 0)
@@ -114,7 +122,7 @@ public class Player : Unit
                 rhythmBattle.FinishBattle();
             Desubscribe();
             LateDestroy();
-            Level.Players.Remove(this);
+            IsDead = true;
             Level.CheckPlayers();
         }
 
