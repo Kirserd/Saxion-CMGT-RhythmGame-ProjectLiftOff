@@ -16,7 +16,6 @@
         SetOrigin(width / 2, height / 2);
         SetScaleXY(0.1f, 1);
     }
-    protected override bool CustomHitTest(Unit unit) => HitTest(unit);
     protected override void CustomOnCollision(Unit unit)
     {
         if (visible)

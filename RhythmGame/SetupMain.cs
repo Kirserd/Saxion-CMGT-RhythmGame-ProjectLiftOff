@@ -8,13 +8,13 @@ public partial class Setup : Game
     public static Sprite postProcessing;
     private void Update() => OnGameUpdate.Invoke();
     private static void Main() => new Setup();
-    public Setup() : base(1280, 720, true, pPixelArt: true, pRealWidth: Settings.Screen.Width, pRealHeight: Settings.Screen.Height)
+    public Setup() : base(1280, 720, false, pPixelArt: true, pRealWidth: Settings.Screen.Width, pRealHeight: Settings.Screen.Height)
     {
         void settings()
         {
             Settings.RefreshAssetsPath();
             Settings.Validate();
-            Settings.Volume = 0.5f;
+            Settings.Volume = 0.8f;
             Settings.Fullscreen = false;
             SoundManager.Init();
             EasyDraw.DefaultFont = new Font("OCR A Extended", 24); 
@@ -26,6 +26,7 @@ public partial class Setup : Game
             OnGameUpdate += InputManager.ListenToInput;
             OnGameUpdate += FirstLoad;
             OnGameUpdate += () => SetChildIndex(postProcessing, 1000);
+            InputManager.Start();
             LevelManager.BeforeLevelDisposed += LevelTransitions.FadeIn;
             LevelManager.AfterLevelDisposed += LevelManager.LoadLevel;
             LevelManager.AfterLevelLoaded += LevelTransitions.FadeOut;

@@ -77,10 +77,9 @@ public class Button : Sprite
 
     public void Invoke() 
     {
-        SetClicked();
         if (_action != null)
         {
-            SoundManager.PlayOnce("MenuClick");
+            SoundManager.PlayOnce("Click");
             _action.Invoke();
         }
     }

@@ -12,6 +12,8 @@ public partial class Setup : Game
         {
             case "MenuLevel": MenuLevel();
                 break;
+            case "ScoreLevel": ScoreLevel();
+                break;
             case "ExampleLevel": ExampleLevel(); 
                 break;
             default:
@@ -85,6 +87,16 @@ public partial class Setup : Game
 
             Assign();
             GUIManager.LoadGUI("Menu");
+        }
+        void ScoreLevel()
+        {
+            level = new Level("Score");
+
+            Assign();
+            if(twoPlayers)
+                GUIManager.LoadGUI("Score2");
+            else
+                GUIManager.LoadGUI("Score");
         }
         #endregion
 

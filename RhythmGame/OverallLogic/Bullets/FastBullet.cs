@@ -8,10 +8,9 @@
             "FastBullet",
             cols: 3,
             rows: 1,
-            addCollider: false
+            addCollider: true
         ) ;
         SetScaleXY(1f / 3f, 1);
-        CollisionRadius = 30f;
         Speed = 10f;
         Damage = 1;
         SetCycle(0, 2);

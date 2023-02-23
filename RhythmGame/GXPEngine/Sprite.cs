@@ -241,10 +241,10 @@ namespace GXPEngine
 		/// </returns>
 		public Vector2[] GetExtents() {
 			Vector2[] ret = new Vector2[4];
-			ret[0] = TransformPoint(_bounds.left, _bounds.top);
-			ret[1] = TransformPoint(_bounds.right, _bounds.top);
-			ret[2] = TransformPoint(_bounds.right, _bounds.bottom);
-			ret[3] = TransformPoint(_bounds.left, _bounds.bottom);
+			ret[0] = TransformPoint(_bounds.left * 0.6f, _bounds.top * 0.6f);
+			ret[1] = TransformPoint(_bounds.right * 0.6f, _bounds.top * 0.6f);
+			ret[2] = TransformPoint(_bounds.right * 0.6f, _bounds.bottom * 0.6f);
+			ret[3] = TransformPoint(_bounds.left * 0.6f, _bounds.bottom * 0.6f);
 			return ret;			
 		}
 		

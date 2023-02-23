@@ -1,5 +1,4 @@
 ﻿using GXPEngine;
-using System.Reflection;
 
 public class Player : Unit
 {
@@ -14,6 +13,7 @@ public class Player : Unit
     private bool[] _directionState = new bool[2] { true, true };
 
     private Vector2 _direction;
+    private Vector2 _animDirection;
     private Vector2 _lastDirection;
     private Vector2 _dashDestination;
 
@@ -23,10 +23,10 @@ public class Player : Unit
 
     private bool _isOnCD = false;
     private float _dashCDCounter = 0;
-    private const float DASH_COOLDOWN = 1f;
+    private const float DASH_COOLDOWN = 0.4f;
 
     private float _dashTimer = 0;
-    private const float DASH_CUTOFF = 1f;
+    private const float DASH_CUTOFF = 0.4f;
 
     private int _id;
 
@@ -42,12 +42,13 @@ public class Player : Unit
 
     public bool IsDead { get; private set; } = false;
 
-    public Player(Vector2 position, int hp, Stat ms) : base(position, hp, ms, "Empty", 1, 1)
+    public Player(Vector2 position, int hp, Stat ms) : base(position, hp, ms, "Empty", 13, 3)
     {
         HP = hp;
         _hpPrevAmount = hp;
         Level.OnPlayerAdded += SubscribeToInput;
-        SetOrigin(width / 2, height / 2);
+        SetScaleXY(scaleX / 13, scaleY / 3);
+        SetOrigin(scaleX, height / 2);
     }
     private void Immortality(int blinkCount)
     {
@@ -128,7 +129,6 @@ public class Player : Unit
         {
             if(RhythmBattle != null)
                 RhythmBattle.FinishBattle();
-            Desubscribe();
             LateDestroy();
             IsDead = true;
             Level.CheckPlayers();
@@ -145,13 +145,58 @@ public class Player : Unit
 
         if (_isOnCD)
         {
-            _dashCDCounter += Time.deltaTime;
+            _dashCDCounter += Time.deltaTime/1000f;
             if (_dashCDCounter >= DASH_COOLDOWN)
             {
                 _dashCDCounter = 0;
                 _isOnCD = false;
             }
         }
+    }
+    private void FixedUpdate() => CheckAnimation();
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        Desubscribe(); 
+    }
+    private void CheckAnimation()
+    {
+        if (_isDashing || _currentFrame >= 16 && _currentFrame < 31)
+        {
+            SetCycle(16, 16);
+            Animate(0.8f);
+        }
+        else
+        {
+            if (_animDirection.x > 0.1f)
+            {
+                Mirror(false, _mirrorY);
+                SetCycle(10, 5);
+                Animate(0.19f);
+            }
+            else if (_animDirection.x < -0.1f)
+            {
+                Mirror(true, _mirrorY);
+                SetCycle(10, 5);
+                Animate(0.19f);
+            }
+            else if (_animDirection.y > 0.1f)
+            {
+                SetCycle(5, 4);
+                Animate(0.19f);
+            }
+            else if (_animDirection.y < -0.1f)
+            {
+                SetCycle(33, 4);
+                Animate(0.19f);
+            }
+            else
+            {
+                SetCycle(0, 4);
+                Animate(0.19f);
+            }
+        }
+        _animDirection = Vector2.zero;
     }
     private void Desubscribe()
     {
@@ -168,6 +213,7 @@ public class Player : Unit
         if (!_directionState[1]) direction = new Vector2(direction.x, _direction.y);
 
         _direction = direction;
+        _animDirection = direction;
         if (direction == Vector2.zero)
             return;
 
@@ -194,7 +240,6 @@ public class Player : Unit
         if (_isOnCD)
             return;
 
-        SoundManager.PlayOnce("Dash");
         _isDashing = true;
         _dashDestination = new Vector2
         (
@@ -204,6 +249,7 @@ public class Player : Unit
 
         _isImmortal = true;
         _isDashingImmortality = true;
+        SoundManager.PlayOnce("Dash");
     }
     private void Dash()
     {
@@ -221,7 +267,7 @@ public class Player : Unit
         if (Vector2.Distance(interpolatedDashStep, _dashDestination) < 1)
             StopDashing();
         
-        _dashTimer += Time.deltaTime;
+        _dashTimer += Time.deltaTime/1000f;
         if (_dashTimer >= DASH_CUTOFF)
         {
             _dashTimer = 0;

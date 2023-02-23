@@ -50,23 +50,7 @@ namespace GXPEngine
 		//														Step()
 		//------------------------------------------------------------------------------------------------------------------------
 		public void Step() {
-			collisionLoopActive = SafeCollisionLoop;
-			for (int i = activeColliderList.Count - 1; i >= 0; i--) {
-				ColliderInfo info = activeColliderList[i];
-				for (int j = colliderList.Count - 1; j >= 0; j--) {					
-					if (j >= colliderList.Count) continue; //fix for removal in loop
-					GameObject other = colliderList[j];
-					if (other.collider == null || !(other.collider.isTrigger || !TriggersOnlyOnCollision)) continue;
-					if (info.gameObject != other) {
-						if (info.gameObject.HitTest(other)) {
-							if (info.onCollision != null) {
-								info.onCollision(other);
-							}
-						}
-					}
-				}
-			}
-			collisionLoopActive = false;
+			
 		}
 
 		//------------------------------------------------------------------------------------------------------------------------

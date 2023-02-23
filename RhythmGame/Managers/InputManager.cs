@@ -17,6 +17,29 @@ public static class InputManager
     public delegate void OnSpaceButtonPressedHandler();
     public static OnSpaceButtonPressedHandler[] OnSpaceButtonPressed = new OnSpaceButtonPressedHandler[2];
 
+    public delegate void OnAnyButtonPressedHandler();
+    public static OnAnyButtonPressedHandler OnAnyButtonPressed;
+
+    public static void Start()
+    {
+        SubscribeAnyButtonPressed();
+        OnAnyButtonPressed += OnAnyButtonPressedNull;
+
+        void OnAnyButtonPressedNull() { }
+        void SubscribeAnyButtonPressed()
+        {
+            OnDownButtonPressed[0] += () => OnAnyButtonPressed.Invoke();
+            OnDownButtonPressed[1] += () => OnAnyButtonPressed.Invoke();
+            OnUpButtonPressed[0] += () => OnAnyButtonPressed.Invoke();
+            OnUpButtonPressed[1] += () => OnAnyButtonPressed.Invoke();
+            OnLeftButtonPressed[0] += () => OnAnyButtonPressed.Invoke();
+            OnLeftButtonPressed[1] += () => OnAnyButtonPressed.Invoke();
+            OnRightButtonPressed[0] += () => OnAnyButtonPressed.Invoke();
+            OnRightButtonPressed[1] += () => OnAnyButtonPressed.Invoke();
+            OnSpaceButtonPressed[0] += () => OnAnyButtonPressed.Invoke();
+            OnSpaceButtonPressed[1] += () => OnAnyButtonPressed.Invoke();
+        }
+    }
     public static void ListenToInput()
     {
         #region 1st Player

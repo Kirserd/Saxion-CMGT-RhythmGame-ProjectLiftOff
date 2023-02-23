@@ -1,5 +1,7 @@
 ﻿using GXPEngine;
+using System.IO;
 using System.Collections.Generic;
+using System.Collections;
 public class Level : Sprite
 {
     public delegate void OnPlayerAddedHandler();
@@ -21,7 +23,39 @@ public class Level : Sprite
             if(!player.IsDead)
                 return;
         }
-        LevelManager.LateLoadLevel("MenuLevel");
+        FinishLevel();
+    }
+    public static void FinishLevel()
+    {
+        SaveScore(Score[0]);
+        if (TwoPlayers)
+            SaveScore(Score[1]);
+        LevelManager.LateLoadLevel("ScoreLevel", TwoPlayers);
+
+        void SaveScore(int newScore)
+        {
+            List<int> scores = new List<int>
+            {
+                newScore
+            };
+            using (StreamReader reader = new StreamReader(Settings.AssetsPath + "Scores.txt"))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    int.TryParse(line, out int score);
+                    scores.Add(score);
+                }
+            }
+            scores.Sort();
+            using (StreamWriter writer = new StreamWriter(Settings.AssetsPath + "Scores.txt"))
+            {
+                for (int i = 0; i < scores.Count; i++)
+                {
+                    writer.WriteLine(scores[scores.Count - 1 - i]);
+                }
+            }
+        }
     }
     public override void AddChild(GameObject child)
     {

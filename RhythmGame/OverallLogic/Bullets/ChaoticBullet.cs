@@ -14,10 +14,9 @@ public class ChaoticBullet : Bullet
             "HomingBullet",
             cols: 4,
             rows: 1,
-            addCollider: false
+            addCollider: true
         );
         SetScaleXY(1f / 4f, 1);
-        CollisionRadius = 30f;
         Speed = 4f;
         Damage = 1;
         SetOrigin(width / 2, height / 2);

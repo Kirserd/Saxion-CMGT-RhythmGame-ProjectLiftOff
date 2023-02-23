@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GUISystems\ScoreList.cs" />
+    <Compile Include="GXPExtended\GUI\ConstValueDisplayer.cs" />
     <Compile Include="GXPExtended\GUI\HPBar.cs" />
     <Compile Include="OverallLogic\ImpulseParticle.cs" />
     <Compile Include="OverallLogic\AutoAnimationSprite.cs" />

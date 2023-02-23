@@ -10,11 +10,10 @@ public class Bullet : AnimationSprite
             "StandardBullet",
             cols: 4,
             rows: 1,
-            addCollider: false
+            addCollider: true
         );
         SetScaleXY(1f / 4f, 1);
         SetOrigin(width / 2, height / 2);
-        CollisionRadius = 30f;
         Speed = 3f;
         Damage = 1;
         SetCycle(0, 3);
@@ -110,11 +109,10 @@ public class Bullet : AnimationSprite
         Unit[] units = Level.Units.ToArray();
         foreach (Unit unit in units)
         {
-            if (CustomHitTest(unit))
+            if (HitTest(unit))
                 CustomOnCollision(unit);
         }
     }
-    protected virtual bool CustomHitTest(Unit unit) => Vector2.Distance(new Vector2(x, y), new Vector2(unit.x, unit.y)) < CollisionRadius;  
     protected virtual void CustomOnCollision(Unit unit)
     {
         if (visible)
