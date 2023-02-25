@@ -14,7 +14,7 @@ public partial class Setup : Game
         {
             Settings.RefreshAssetsPath();
             Settings.Validate();
-            Settings.Volume = 0.8f;
+            Settings.Volume = 0.4f;
             Settings.Fullscreen = false;
             SoundManager.Init();
             EasyDraw.DefaultFont = new Font("OCR A Extended", 24); 

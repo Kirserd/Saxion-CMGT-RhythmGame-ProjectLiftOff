@@ -36,7 +36,7 @@ public class EventSequence : GameObject
             string line;
             while((line = reader.ReadLine()) != null)
             {
-                float.TryParse(line, out float delay);
+                float.TryParse(line, System.Globalization.NumberStyles.AllowDecimalPoint, new System.Globalization.NumberFormatInfo(), out float delay);
                 if(delay == 0)
                     names.Add(line);
                 else
